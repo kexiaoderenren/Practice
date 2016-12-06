@@ -17,12 +17,12 @@ public class ApiLoader {
 
     private static Retrofit getRetrofit() {
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .build();
+//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+//                .build();
         retrofit = new Retrofit.Builder()
                 .client(new OkHttpClient.Builder().addNetworkInterceptor(
-                        new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build()
+                        new LoggingInterceptor().setLevel(LoggingInterceptor.Level.BODY)).build()
                 )
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
