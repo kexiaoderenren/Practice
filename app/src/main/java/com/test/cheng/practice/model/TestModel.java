@@ -5,11 +5,13 @@ package com.test.cheng.practice.model;
  */
 public class TestModel {
 
-    private String login;
-    public String getLogin() {
-        return login;
+    private String submit;
+
+    public String getSubmit() {
+        return submit;
     }
-    public void setLogin(String login) {
-        this.login = login;
+
+    public void setSubmit(String submit) {
+        this.submit = submit;
     }
 }

@@ -121,7 +121,8 @@ public class LoggingInterceptor implements Interceptor {
     @Override public Response intercept(Chain chain) throws IOException {
         Level level = this.level;
 
-        Request request = chain.request();
+        Request request = chain.request()
+                .newBuilder().addHeader("test_header_key", "test_header_value").build();   //添加通用请求头
         if (level == Level.NONE) {
             return chain.proceed(request);
         }
@@ -175,11 +176,10 @@ public class LoggingInterceptor implements Interceptor {
                     charset = contentType.charset(UTF8);
                 }
 
-                logger.log("");
+                logger.log("--------------------------");
                 logger.log(buffer.readString(charset));
-                //LogUtils.d(LogUtils.LOG_NET, buffer.readString(charset));
-                logger.log("--> END " + request.method()
-                        + " (" + requestBody.contentLength() + "-byte body)");
+                logger.log("--------------------------");
+                //logger.log("--> END " + request.method() + " (" + requestBody.contentLength() + "-byte body)");
             }
         }
 
@@ -228,8 +228,7 @@ public class LoggingInterceptor implements Interceptor {
                     logger.log(buffer.clone().readString(charset));
                     //LogUtils.i(LogUtils.LOG_NET, buffer.clone().readString(charset));
                 }
-
-                logger.log("<-- END HTTP (" + buffer.size() + "-byte body)");
+                //logger.log("<-- END HTTP (" + buffer.size() + "-byte body)");
             }
         }
 

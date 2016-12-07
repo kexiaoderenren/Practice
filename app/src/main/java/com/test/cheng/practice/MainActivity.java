@@ -4,10 +4,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.textservice.TextServicesManager;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
+import com.test.cheng.practice.model.TestModel;
 import com.test.cheng.practice.model.net.ApiLoader;
+import com.test.cheng.practice.utils.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,15 +38,15 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("submit","1");
 
-                Call<Object> test = ApiLoader.newApi().testPost(map);
-                test.enqueue(new Callback<Object>() {
+                Call<TestModel> test = ApiLoader.newApi().testPost(map);
+                test.enqueue(new Callback<TestModel>() {
                     @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
+                    public void onResponse(Call<TestModel> call, Response<TestModel> response) {
                         Log.i("test", "response:" + response.code() + response.body().toString());
                     }
 
                     @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
+                    public void onFailure(Call<TestModel> call, Throwable t) {
                         Logger.i("Throwable:" + t.getMessage());
                     }
                 });

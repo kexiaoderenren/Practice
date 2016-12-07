@@ -18,14 +18,11 @@ public interface ApiManager {
 
     public final static String PATH = "/index.php?m=&c=Index&a=sunyang_test";
 
-    @GET("/users/{user}")
-    Call<TestModel> testHttpGet(@Path("user") String user);
+    @GET(PATH + "/{submit}")
+    Call<TestModel> testHttpGet(@Path("submit") String submit);
 
-    @FormUrlEncoded
-    @POST("/user")
-    Call<TestModel> testHttpPost(@FieldMap Map<String,Object> maps);
 
     @FormUrlEncoded
     @POST(PATH)
-    Call<Object> testPost(@FieldMap Map<String,Object> maps);
+    Call<TestModel> testPost(@FieldMap Map<String,Object> maps);
 }
