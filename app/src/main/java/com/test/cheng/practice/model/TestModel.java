@@ -14,4 +14,11 @@ public class TestModel {
     public void setSubmit(String submit) {
         this.submit = submit;
     }
+
+    @Override
+    public String toString() {
+        return "TestModel{" +
+                "submit='" + submit + '\'' +
+                '}';
+    }
 }

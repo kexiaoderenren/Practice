@@ -1,7 +1,5 @@
 package com.test.cheng.practice.model.net;
 
-import com.test.cheng.practice.utils.LogUtils;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
@@ -226,7 +224,6 @@ public class LoggingInterceptor implements Interceptor {
                 if (contentLength != 0) {
                     logger.log("");
                     logger.log(buffer.clone().readString(charset));
-                    //LogUtils.i(LogUtils.LOG_NET, buffer.clone().readString(charset));
                 }
                 //logger.log("<-- END HTTP (" + buffer.size() + "-byte body)");
             }
