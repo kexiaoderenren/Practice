@@ -3,7 +3,6 @@ package com.test.cheng.practice.test;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
 import com.orhanobut.logger.Logger;
@@ -11,7 +10,7 @@ import com.test.cheng.practice.R;
 import com.test.cheng.practice.model.TestModel;
 import com.test.cheng.practice.model.net.ApiLoader;
 import com.test.cheng.practice.utils.ToastUtils;
-import com.test.cheng.practice.view.BaseActivity;
+import com.test.cheng.practice.view.common.BaseActivity;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -28,7 +28,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
     //添加retrofit2 的依赖 添加这个依赖就默认添加了okhttp依赖
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     //支持Gson 及 rxjava
@@ -45,4 +45,5 @@ dependencies {
 
     compile 'com.jakewharton:butterknife:8.0.1'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    compile 'com.android.support:design:23.1.1'
 }
