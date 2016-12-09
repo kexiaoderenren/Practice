@@ -10,6 +10,7 @@ import com.orhanobut.logger.Logger;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.model.TestModel;
 import com.test.cheng.practice.model.net.ApiLoader;
+import com.test.cheng.practice.utils.ToastUtils;
 import com.test.cheng.practice.view.BaseActivity;
 
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +34,7 @@ public class TestActivity extends BaseActivity {
 
 
     @BindView(R.id.btn) Button btn;
+    @BindView(R.id.btn2) Button btn2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,8 +42,19 @@ public class TestActivity extends BaseActivity {
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
 
+    }
 
+    @OnClick(R.id.btn) public void btnOnClick() {
+        ToastUtils.show(this, "---btn----");
+    }
 
+    @OnClick(R.id.btn2) public void btn2OnClick() {
+        ToastUtils.show(this, "---btn2----");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void testRxJavaHttpGet() {
