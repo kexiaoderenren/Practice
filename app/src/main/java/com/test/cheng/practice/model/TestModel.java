@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by gaokuncheng on 2016/12/5.
+ * Created by kexiaoderenren on 2016/12/5.
  */
 public class TestModel implements Serializable{
 

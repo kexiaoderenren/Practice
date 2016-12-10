@@ -43,18 +43,8 @@ public class TestActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.btn) public void btnOnClick() {
-        ToastUtils.show(this, "---btn----");
-    }
 
-    @OnClick(R.id.btn2) public void btn2OnClick() {
-        ToastUtils.show(this, "---btn2----");
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     private void testRxJavaHttpGet() {
         ApiLoader.newApi().testRxJavaHttpGet("1")

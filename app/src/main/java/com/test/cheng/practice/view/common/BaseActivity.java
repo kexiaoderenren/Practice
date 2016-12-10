@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.test.cheng.practice.R;
 
 /**
- * Created by cheng on 2016/12/8.
+ * Created by kexiaoderenren on 2016/12/8.
  */
 public class BaseActivity extends AppCompatActivity {
 

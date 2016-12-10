@@ -10,7 +10,7 @@ import com.test.cheng.practice.R;
 import com.test.cheng.practice.view.common.BaseFragment;
 
 /**
- * Created by gaokuncheng on 2016/12/9.
+ * Created by kexiaoderenren on 2016/12/9.
  */
 public class DiscoverFragment extends BaseFragment {
 

@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 import com.test.cheng.practice.R;
 
 /**
- * Created by gaokuncheng on 2016/12/9.
+ * Created by kexiaoderenren on 2016/12/9.
  */
 public class BaseFragment extends Fragment{
 

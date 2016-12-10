@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 /**
- * Created by gaokuncheng on 2016/12/5.
+ * Created by kexiaoderenren on 2016/12/5.
  */
 public interface ApiManager {
 

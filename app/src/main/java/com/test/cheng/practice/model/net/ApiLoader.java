@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * from: http://www.jianshu.com/p/0f97f94b171f
- * Created by gaokuncheng on 2016/12/5.  http://www.dianshengsheng.com
+ * Created by kexiaoderenren on 2016/12/5.  http://www.dianshengsheng.com
  */
 public class ApiLoader {
 
