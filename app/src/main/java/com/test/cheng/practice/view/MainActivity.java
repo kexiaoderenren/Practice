@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.adapter.MainPagerAdapter;
@@ -36,8 +37,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
-        vpPager.setAdapter(mainPagerAdapter);
-        tlTitle.setupWithViewPager(vpPager);
     }
 
     private void init() {
@@ -51,6 +50,8 @@ public class MainActivity extends BaseActivity {
         fragments.add(discoverFragment);
         fragments.add(mineFragment);
         mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), tabs, fragments);
+        vpPager.setAdapter(mainPagerAdapter);
+        tlTitle.setupWithViewPager(vpPager);
     }
 
 

@@ -107,4 +107,29 @@ public class TestActivity extends BaseActivity {
 
     }
 
+
+    /**
+     *
+     * @OnClick({R.id.tv_add,R.id.tv_delete})
+
+    public void clickView(View view){
+
+         switch (view.getId()){
+
+                  case R.id.tv_add:
+
+                       Toast.makeText(this,"tv_add", Toast.LENGTH_SHORT).show();
+
+                       break;
+
+                 case R.id.tv_delete:
+
+                       Toast.makeText(this,"tv_delete", Toast.LENGTH_SHORT).show();
+
+                       break;
+
+             }
+
+     */
+
 }

@@ -19,8 +19,9 @@ public class ApiLoader {
 
     private static Retrofit getRetrofit() {
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addNetworkInterceptor(
-                new LoggingInterceptor().setLevel(LoggingInterceptor.Level.BODY)).build();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addNetworkInterceptor(new LoggingInterceptor().setLevel(LoggingInterceptor.Level.BODY))
+                .build();
 
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Practice</string>
     <string name="just_working">正在处理</string>
+    <string name="mine">我的</string>
 </resources>

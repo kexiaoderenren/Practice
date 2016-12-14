@@ -25,7 +25,7 @@
 # 防止反射失败，使用案例友盟、retrofit，保持泛型
 -keepattributes *Annotation*
 -keepattributes Exceptions,InnerClasses,Signature
--keep public class b2b.wine9.com.wineb2b.R$*{
+-keep public class com.test.cheng.practice.R$*{
     public static final int *;
 }
 -keepclassmembers enum * {
