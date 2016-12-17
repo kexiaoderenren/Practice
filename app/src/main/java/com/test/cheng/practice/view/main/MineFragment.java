@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.utils.Constants;
+import com.test.cheng.practice.utils.ImageLoaderUtils;
 import com.test.cheng.practice.view.common.BaseFragment;
 
 import butterknife.BindView;
@@ -51,7 +51,7 @@ public class MineFragment extends BaseFragment implements Toolbar.OnMenuItemClic
             }
         });
         toolbar.setTitle(getString(R.string.mine));
-        Glide.with(this).load(Constants.TEST_URL).into(backdrop);
+        ImageLoaderUtils.loadImg(this, Constants.TEST_URL, backdrop);
     }
 
 

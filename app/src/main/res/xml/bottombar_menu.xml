@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <tab
+        id="@+id/tab_one"
+        title="one"
+        barColorWhenSelected="@color/colorPrimary"/>
+    <tab
+        id="@+id/tab_two"
+        title="two"
+        barColorWhenSelected="@color/colorPrimary" />
+    <tab
+        id="@+id/tab_three"
+        title="three"
+        barColorWhenSelected="@color/colorPrimary" />
+    <tab
+        id="@+id/tab_four"
+        title="four"
+        barColorWhenSelected="@color/colorPrimary" />
+</tabs>

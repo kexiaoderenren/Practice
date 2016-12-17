@@ -16,6 +16,11 @@
 #   public *;
 #}
 
+# keep 保留，例如keepattributes：表示保留属性
+# dont 不要，例如dontwarn：表示不要提示警告
+# ignore 忽略，例如ignorewarning：表示忽略警告
+
+
 -optimizationpasses 5
 -dontshrink
 -dontoptimize
@@ -25,6 +30,8 @@
 # 防止反射失败，使用案例友盟、retrofit，保持泛型
 -keepattributes *Annotation*
 -keepattributes Exceptions,InnerClasses,Signature
+#反射
+-keepattributes EnclosingMethod
 -keep public class com.test.cheng.practice.R$*{
     public static final int *;
 }
@@ -37,7 +44,6 @@
 }
 
 #android-support-v4.jar依赖包
--libraryjars libs/android-support-v4.jar
 -dontwarn android-support-v4.**
 -keep class android.support.v4.** {*;}
 -keep interface android.support.v4.app.**{ *;}
@@ -45,9 +51,9 @@
 -keep public class android.webkit.**
 
 #不混淆Parcelable的子类，防止android.os.BadParcelableException
--keep class * implements android.os.Parcelable {
-public static final android.os.Parcelable$Creator*;
-}
+#-keep class * implements android.os.Parcelable {
+#public static final android.os.Parcelable$Creator*;
+#}
 
 #保持所有实现 Serializable 接口的类成员
 -keepclassmembers class * implements java.io.Serializable {
@@ -65,11 +71,6 @@ public static final android.os.Parcelable$Creator*;
     public *;
 }
 
-#release模式(正式发布)就不会打印日志了，而debug模式(平常调试)照常打印。
--assumenosideeffects class android.util.Log{
-  public static ***d(...);
-  public static ***v(...);
-}
 
 #Fragment不需要在AndroidManifest.xml中注册，需要额外保护下
 -keep public class * extends android.support.v4.app.Fragment
@@ -90,4 +91,15 @@ public static final android.os.Parcelable$Creator*;
 -keepclasseswithmembers class * {
     @retrofit.http.* <methods>;
 }
+-dontwarn retrofit2.Platform$Java8
 
+
+-keep class org.apache.http.** { *; }
+-dontwarn org.apache.http.**
+-keep class android.net.http.** { *; }
+-dontwarn android.net.http.**
+-dontnote android.net.http.*
+-dontnote org.apache.commons.codec.**
+-dontnote org.apache.http.**
+
+-dontwarn com.roughike.**

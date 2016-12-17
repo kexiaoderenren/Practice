@@ -1,15 +1,14 @@
 package com.test.cheng.practice.view;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+import android.widget.FrameLayout;
 
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 import com.test.cheng.practice.R;
-import com.test.cheng.practice.adapter.MainPagerAdapter;
 import com.test.cheng.practice.view.common.BaseActivity;
 import com.test.cheng.practice.view.main.DiscoverFragment;
 import com.test.cheng.practice.view.main.HomeFragment;
@@ -22,14 +21,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
-    private static final String[] tabs = {"首页", "消息", "发现", "我得"};
-    private List<Fragment> fragments;
-    private MainPagerAdapter mainPagerAdapter;
 
-    @BindView(R.id.vp_pager) ViewPager vpPager;
-    @BindView(R.id.tl_title) TabLayout tlTitle;
+    @BindView(R.id.bottomBar) BottomBar bottomBar;
+
+    private Fragment mCurrentFragment;
+    private FragmentManager mFragmentManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +39,51 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
-        fragments = new ArrayList<>();
-        HomeFragment homeFragment = new HomeFragment();
-        MessageFragment messageFragment = new MessageFragment();
-        DiscoverFragment discoverFragment = new DiscoverFragment();
-        MineFragment mineFragment = new MineFragment();
-        fragments.add(homeFragment);
-        fragments.add(messageFragment);
-        fragments.add(discoverFragment);
-        fragments.add(mineFragment);
-        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), tabs, fragments);
-        vpPager.setAdapter(mainPagerAdapter);
-        tlTitle.setupWithViewPager(vpPager);
+        mFragmentManager = getSupportFragmentManager();
+        bottomBar.setOnTabSelectListener(this);
+    }
+
+    private void switchMenu(String fragmentName) {
+
+        Fragment fragment = mFragmentManager.findFragmentByTag(fragmentName);
+
+        if (fragment != null) {
+            if (fragment == mCurrentFragment) return;
+            mFragmentManager.beginTransaction().show(fragment).commit();
+        } else {
+            if (fragmentName.equals(HomeFragment.class.getSimpleName())) {
+                fragment = new HomeFragment();
+            } else if (fragmentName.equals(MessageFragment.class.getSimpleName())) {
+                fragment = new MessageFragment();
+            } else if (fragmentName.equals(DiscoverFragment.class.getSimpleName())) {
+                fragment = new DiscoverFragment();
+            } else if (fragmentName.equals(MineFragment.class.getSimpleName())) {
+                fragment = new MineFragment();
+            }
+            mFragmentManager.beginTransaction().add(R.id.contentContainer, fragment, fragmentName).commit();
+        }
+        if (mCurrentFragment != null) {
+            mFragmentManager.beginTransaction().hide(mCurrentFragment).commit();
+        }
+        mCurrentFragment = fragment;
     }
 
 
+    @Override
+    public void onTabSelected(@IdRes int tabId) {
+        switch (tabId) {
+            case R.id.tab_one:
+                switchMenu(HomeFragment.class.getSimpleName());
+                break;
+            case R.id.tab_two:
+                switchMenu(MessageFragment.class.getSimpleName());
+                break;
+            case R.id.tab_three:
+                switchMenu(DiscoverFragment.class.getSimpleName());
+                break;
+            case R.id.tab_four:
+                switchMenu(MineFragment.class.getSimpleName());
+                break;
+        }
+    }
 }
