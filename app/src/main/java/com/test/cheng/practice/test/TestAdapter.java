@@ -1,48 +1,28 @@
 package com.test.cheng.practice.test;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.test.cheng.practice.R;
 
 import java.util.List;
 
 /**
- * Created by gaokuncheng on 2016/12/17.
+ * Created by kexiaoderenren on 2016/12/17.
  */
-public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestHolder> {
+public class TestAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
-    private Context context;
-    private List<String> lists;
+    public TestAdapter(int layoutResId, List<String> data) {
+        super(layoutResId, data);
+    }
 
-    public TestAdapter(Context context, List<String> lists) {
-        this.context = context;
-        this.lists = lists;
+    public TestAdapter(List<String> data) {
+        super(R.layout.activity_list_item_test, data);
     }
 
     @Override
-    public TestAdapter.TestHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TestHolder(LayoutInflater.from(context).inflate(R.layout.activity_list_item_test, parent, false));
-    }
+    protected void convert(BaseViewHolder baseViewHolder, String s) {
 
-    @Override
-    public void onBindViewHolder(TestAdapter.TestHolder holder, int position) {
-        //ImageLoaderUtils.loadImg(context, "http://image13.wine9.com/activity/2016/12/app/lc/6_02.jpg", holder.imgPhoto);
-    }
-
-    @Override
-    public int getItemCount() {
-        return lists == null ? 0 : lists.size();
-    }
-
-    class TestHolder extends RecyclerView.ViewHolder {
-
-
-        public TestHolder(View itemView) {
-            super(itemView);
-        }
     }
 }

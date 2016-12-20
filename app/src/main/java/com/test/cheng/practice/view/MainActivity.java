@@ -29,7 +29,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private Fragment mCurrentFragment;
     private FragmentManager mFragmentManager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

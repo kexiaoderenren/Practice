@@ -57,7 +57,7 @@ public class HomeFragment extends BaseFragment {
 
         recyclerview.setLayoutManager(new LinearLayoutManager(getMyActivity()));
         recyclerview.setItemAnimator(new DefaultItemAnimator());
-        recyclerview.setAdapter(new TestAdapter(getMyActivity(), lists));
+        recyclerview.setAdapter(new TestAdapter(lists));
 
     }
 }
