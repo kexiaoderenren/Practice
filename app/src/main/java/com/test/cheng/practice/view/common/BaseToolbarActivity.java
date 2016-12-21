@@ -10,7 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by gaokuncheng on 2016/12/14.
+ * Created by kexiaoderenren on 2016/12/14.
  */
 public abstract class BaseToolbarActivity extends BaseActivity {
 
