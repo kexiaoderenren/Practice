@@ -13,6 +13,7 @@ import com.orhanobut.logger.Logger;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.utils.LogUtils;
 import com.test.cheng.practice.view.common.BaseActivity;
+import com.test.cheng.practice.view.common.BaseToolbarActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,26 +25,18 @@ import butterknife.ButterKnife;
 /**
  * Created by kexiaoderenren on 2016/12/8.
  */
-public class TestActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener,
+public class TestActivity extends BaseToolbarActivity implements BaseQuickAdapter.RequestLoadMoreListener,
         SwipeRefreshLayout.OnRefreshListener {
 
-
-    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerview) RecyclerView recyclerview;
     @BindView(R.id.refresh_layout) SwipeRefreshLayout refreshLayout;
 
     private List<String> lists;
     private TestAdapter testAdapter;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
-        ButterKnife.bind(this);
-        init();
-    }
 
-    private void init() {
+    @Override
+    protected void init() {
         lists = new ArrayList<>();
         String[] test = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
         lists.addAll(Arrays.asList(test));
@@ -56,6 +49,22 @@ public class TestActivity extends BaseActivity implements BaseQuickAdapter.Reque
         testAdapter.openLoadAnimation(2);
         testAdapter.setOnLoadMoreListener(this);
         recyclerview.setAdapter(testAdapter);
+    }
+
+    @Override
+    protected int setLayoutResId() {
+        return R.layout.activity_test;
+    }
+
+    @Override
+    protected void initViews() {
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void settingToolbar() {
+        super.settingToolbar();
+        toolbar.setTitle("test");
     }
 
     @Override

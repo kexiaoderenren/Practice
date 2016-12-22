@@ -14,18 +14,21 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseToolbarActivity extends BaseActivity {
 
-    /**页面布局文件**/
-    protected int layoutResId;
+    /** 是否显示toolbar **/
+    protected boolean hasShowToolbar = true;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    protected Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLayoutResId();
-        setContentView(layoutResId);
+        setContentView(setLayoutResId());
+        if (hasShowToolbar) {
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            settingToolbar();
+            setSupportActionBar(toolbar);
+        }
         initViews();
-        setSupportActionBar(toolbar);
         init();
     }
 
@@ -37,10 +40,17 @@ public abstract class BaseToolbarActivity extends BaseActivity {
     /**
      * 设置布局文件
      */
-    protected abstract void setLayoutResId();
+    protected abstract int setLayoutResId();
 
     /**
      * 初始化布局控件
      */
     protected abstract void initViews();
+
+    /**
+     * 设置toolbar属性
+     */
+    protected void settingToolbar() {
+
+    }
 }
