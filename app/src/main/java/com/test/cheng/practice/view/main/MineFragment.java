@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.ImageLoaderUtils;
-import com.test.cheng.practice.view.common.BaseFragment;
+import com.test.cheng.practice.view.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,8 @@ import android.view.ViewGroup;
 
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.test.TestAdapter;
-import com.test.cheng.practice.view.common.BaseFragment;
+import com.test.cheng.practice.view.base.BaseFragment;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

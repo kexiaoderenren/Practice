@@ -1,18 +1,12 @@
 package com.test.cheng.practice.test;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.orhanobut.logger.Logger;
 import com.test.cheng.practice.R;
-import com.test.cheng.practice.utils.LogUtils;
-import com.test.cheng.practice.view.common.BaseActivity;
 import com.test.cheng.practice.view.common.BaseToolbarActivity;
 
 import java.util.ArrayList;

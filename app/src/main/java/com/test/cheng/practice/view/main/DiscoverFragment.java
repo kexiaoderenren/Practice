@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.test.cheng.practice.R;
-import com.test.cheng.practice.view.common.BaseFragment;
+import com.test.cheng.practice.view.base.BaseFragment;
 
 import butterknife.ButterKnife;
 

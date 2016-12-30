@@ -1,4 +1,4 @@
-package com.test.cheng.practice.view.common;
+package com.test.cheng.practice.view.base;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
