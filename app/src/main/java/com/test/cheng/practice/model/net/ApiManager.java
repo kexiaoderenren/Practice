@@ -1,6 +1,7 @@
 package com.test.cheng.practice.model.net;
 
 import com.test.cheng.practice.model.TestModel;
+import com.test.cheng.practice.model.bean.LastestNews;
 import com.test.cheng.practice.model.bean.StartImgVo;
 import com.test.cheng.practice.utils.Constants;
 
@@ -39,4 +40,7 @@ public interface ApiManager {
 
     @GET(Constants.URL_GET_START_IMAGES)
     Call<StartImgVo> getStartImg2(@Path("widthAndHeight") String widthAndHeight);
+
+    @GET(Constants.URL_GET_LATEST_NEWS)
+    Call<LastestNews> getLastedNews();
 }

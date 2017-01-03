@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#FFD54F</color> <!-- 状态栏-->
     <color name="colorAccent">@color/white</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="yellow_bottom_bar">#FFE57F</color>
 
     <color name="default_deliver_color">#aaaaaa</color>

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orhanobut.logger.Logger;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.test.TestAdapter;
 import com.test.cheng.practice.view.base.BaseFragment;
@@ -57,5 +58,10 @@ public class HomeFragment extends BaseFragment {
         recyclerview.setItemAnimator(new DefaultItemAnimator());
         recyclerview.setAdapter(new TestAdapter(lists));
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
     }
 }

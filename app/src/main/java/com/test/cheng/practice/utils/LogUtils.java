@@ -3,7 +3,7 @@ package com.test.cheng.practice.utils;
 import com.orhanobut.logger.Logger;
 
 /**
- * Created by gaokuncheng on 2016/12/21.
+ * Created by kexiaoderenren on 2016/12/21.
  */
 public class LogUtils {
 

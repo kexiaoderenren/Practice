@@ -21,7 +21,7 @@ import okio.BufferedSource;
 
 /**
  * 自定义网络拦截器 copy from okhttp3.logging.HttpLoggingInterceptor
- * Created by cheng on 2016/12/6.
+ * Created by kexiaoderenren on 2016/12/6.
  */
 public class LoggingInterceptor implements Interceptor {
     private static final Charset UTF8 = Charset.forName("UTF-8");

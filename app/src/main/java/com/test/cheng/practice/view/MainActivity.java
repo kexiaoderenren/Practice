@@ -7,6 +7,7 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.orhanobut.logger.Logger;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.test.cheng.practice.R;
@@ -48,6 +49,10 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         bottomBar.setOnTabSelectListener(this);
     }
 
+    /**
+     * 切换tab页fragment
+     * @param fragmentName
+     */
     private void switchMenu(String fragmentName) {
 
         Fragment fragment = mFragmentManager.findFragmentByTag(fragmentName);

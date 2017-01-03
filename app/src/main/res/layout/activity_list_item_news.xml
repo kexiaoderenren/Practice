@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
+    android:layout_gravity="center"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_width="match_parent"
+    card_view:cardCornerRadius="@dimen/dp_8"
+    app:cardUseCompatPadding="true"
+    card_view:cardElevation="@dimen/dp_6"
+    android:layout_height="@dimen/dp_120">
+
+    <RelativeLayout
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_15"
+        android:paddingLeft="@dimen/dp_15"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_news_thumbnail"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100" />
+        <TextView
+            android:id="@+id/tv_news_title"
+            android:layout_toLeftOf="@id/img_news_thumbnail"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_16"
+            android:gravity="top|left"
+            android:ellipsize="end"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

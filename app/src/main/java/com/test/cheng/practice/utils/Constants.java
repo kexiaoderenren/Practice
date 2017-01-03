@@ -25,6 +25,8 @@ public class Constants {
      */
     public static final String URL_GET_START_IMAGES = "/api/4/start-image/{widthAndHeight}";
 
+    public static final String URL_GET_LATEST_NEWS = "/api/4/news/latest";
+
     /**
      * **********************************
      * 知乎日报接口URL-------end
