@@ -22,9 +22,8 @@
 
         <activity android:name=".test.TestActivity"></activity>
 
-        <activity android:name=".view.common.HtmlActivity" android:screenOrientation="portrait">
+        <activity android:name=".view.common.HtmlActivity" android:screenOrientation="portrait"></activity>
 
-        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
