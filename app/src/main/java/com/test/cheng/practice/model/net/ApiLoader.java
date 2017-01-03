@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiLoader {
 
     //public static final String BASE_URL = "https://api.github.com";
-    public static final String BASE_URL = "http://114.215.169.50";
+    public static final String BASE_URL = "http://news-at.zhihu.com";
 
     private static Retrofit retrofit;
 

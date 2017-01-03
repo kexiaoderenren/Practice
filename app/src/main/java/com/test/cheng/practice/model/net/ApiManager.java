@@ -1,6 +1,8 @@
 package com.test.cheng.practice.model.net;
 
 import com.test.cheng.practice.model.TestModel;
+import com.test.cheng.practice.model.bean.StartImgVo;
+import com.test.cheng.practice.utils.Constants;
 
 import java.util.Map;
 
@@ -31,4 +33,10 @@ public interface ApiManager {
 
     @GET(PATH)
     Observable<TestModel> testRxJavaHttpGet(@Query("submit") String submit);
+
+    @GET(Constants.URL_GET_START_IMAGES)
+    Observable<StartImgVo> getStartImg();
+
+    @GET(Constants.URL_GET_START_IMAGES)
+    Call<StartImgVo> getStartImg2(@Path("widthAndHeight") String widthAndHeight);
 }

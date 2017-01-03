@@ -103,3 +103,6 @@
 -dontnote org.apache.http.**
 
 -dontwarn com.roughike.**
+
+#javaBean类不混淆
+-keep class com.test.cheng.practice.model.bean.** { *; }

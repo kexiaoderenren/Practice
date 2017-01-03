@@ -31,7 +31,7 @@ public class HtmlActivity extends BaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.webview) WebView webview;
 
-    private String url = Constants.OS_CHINA_URL;
+    private String url;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

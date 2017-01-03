@@ -1,5 +1,7 @@
 package com.test.cheng.practice.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,9 @@ import com.test.cheng.practice.view.main.MineFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 底部Tab效果切换Activity
+ */
 public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
 
@@ -24,6 +29,11 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     private Fragment mCurrentFragment;
     private FragmentManager mFragmentManager;
+
+    public static void start(Context context){
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
