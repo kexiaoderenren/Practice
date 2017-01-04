@@ -21,4 +21,8 @@
         <item name="android:activityCloseExitAnimation">@anim/zoom_exit</item>
     </style>
 
+    <style name="style_toolbar" parent="ThemeOverlay.AppCompat.Light">
+
+    </style>
+
 </resources>

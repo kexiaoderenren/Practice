@@ -43,4 +43,12 @@ public interface ApiManager {
 
     @GET(Constants.URL_GET_LATEST_NEWS)
     Call<LastestNews> getLastedNews();
+
+    /**
+     * 过往消息
+     * @param date 20131119格式日期
+     * @return
+     */
+    @GET(Constants.URL_GET_BEFORE_NEWS)
+    Call<LastestNews> getBeforeNews(@Path("date") String date);
 }

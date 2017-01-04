@@ -9,7 +9,7 @@ public class Constants {
     public static final String TEST_URL = "http://images.wine9.com/activity/goodspic/cp/10517/lrxm_06.jpg";
     public static final String TEST_URL2 = "http://image.dianshengsheng.com/goods/store_10/goods_145/201608291815458834.jpg";
 
-    public static final int Constant_4000 = 4000;
+    public static final int Constant_4000 = 2000;
 
 
     /**
@@ -21,10 +21,18 @@ public class Constants {
      */
 
     /**
-     * 获取首页图片 http://news-at.zhihu.com/api/4/start-image/1080*1776
+     * 最新消息 获取首页图片 http://news-at.zhihu.com/api/4/start-image/1080*1776
      */
     public static final String URL_GET_START_IMAGES = "/api/4/start-image/{widthAndHeight}";
 
+    /**
+     * http://news-at.zhihu.com/api/4/news/before/20131119
+     */
+    public static final String URL_GET_BEFORE_NEWS = "/api/4/news/before/{date}";
+
+    /**
+     * http://news-at.zhihu.com/api/4/news/latest
+     */
     public static final String URL_GET_LATEST_NEWS = "/api/4/news/latest";
 
     /**

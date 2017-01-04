@@ -6,14 +6,41 @@
     android:fitsSystemWindows="true"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <include layout="@layout/view_toolbar"/>
 
-    </android.support.design.widget.AppBarLayout>
+        <com.test.cheng.practice.widget.SuperSwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <include layout="@layout/view_recyclerview" />
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nestedScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.bigkoo.convenientbanner.ConvenientBanner
+                        android:id="@+id/convenientBanner"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:canLoop="true" />
+
+                    <include layout="@layout/view_recyclerview" />
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+        </com.test.cheng.practice.widget.SuperSwipeRefreshLayout>
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

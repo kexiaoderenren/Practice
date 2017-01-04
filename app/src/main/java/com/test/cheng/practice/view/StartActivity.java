@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.util.Util;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.model.bean.StartImgVo;
 import com.test.cheng.practice.model.net.ApiLoader;
@@ -71,4 +72,9 @@ public class StartActivity extends BaseActivity {
         }, Constants.Constant_4000);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ImageLoaderUtils.pauseRequest();
+    }
 }

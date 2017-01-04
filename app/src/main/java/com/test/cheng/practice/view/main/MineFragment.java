@@ -51,7 +51,7 @@ public class MineFragment extends BaseFragment implements Toolbar.OnMenuItemClic
             }
         });
         toolbar.setTitle(getString(R.string.mine));
-        ImageLoaderUtils.loadImg(this, Constants.TEST_URL, backdrop);
+        ImageLoaderUtils.loadImg(getMyActivity(), Constants.TEST_URL, backdrop);
     }
 
 
