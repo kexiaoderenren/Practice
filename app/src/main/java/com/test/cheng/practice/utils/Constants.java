@@ -44,4 +44,6 @@ public class Constants {
 
     public static final String RESULT = "result";
 
+    public static final String MINUS_SIGN = "-";  //减号
+
 }
