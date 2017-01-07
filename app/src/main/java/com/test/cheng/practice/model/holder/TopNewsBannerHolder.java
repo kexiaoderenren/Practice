@@ -3,6 +3,7 @@ package com.test.cheng.practice.model.holder;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ public class TopNewsBannerHolder implements Holder<LastestNews.TopStoriesEntity>
     @Override
     public View createView(Context context) {
         View bannerView = LayoutInflater.from(context).inflate(R.layout.activity_top_banner_news, null);
-        imgTopNews = (ImageView) bannerView.findViewById(R.id.img_top);
+        imgTopNews = (ImageView) bannerView.findViewById(R.id.imgbtn_top);
         tvTopNews = (TextView) bannerView.findViewById(R.id.tv_top_title);
         return bannerView;
     }

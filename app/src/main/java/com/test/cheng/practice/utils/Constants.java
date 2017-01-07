@@ -9,7 +9,7 @@ public class Constants {
     public static final String TEST_URL = "http://images.wine9.com/activity/goodspic/cp/10517/lrxm_06.jpg";
     public static final String TEST_URL2 = "http://image.dianshengsheng.com/goods/store_10/goods_145/201608291815458834.jpg";
 
-    public static final int Constant_4000 = 2000;
+    public static final int Constant_4000 = 500;
 
 
     /**
@@ -36,6 +36,11 @@ public class Constants {
     public static final String URL_GET_LATEST_NEWS = "/api/4/news/latest";
 
     /**
+     * http://news-at.zhihu.com/api/4/news/3892357
+     */
+    public static final String URL_GET_NEWS_DETAIL = "/api/4/news{id}";
+
+    /**
      * **********************************
      * 知乎日报接口URL-------end
      ************************************
@@ -45,5 +50,7 @@ public class Constants {
     public static final String RESULT = "result";
 
     public static final String MINUS_SIGN = "-";  //减号
+    public static final String PARAM_ID = "id";
+    public static final String PARAM_URL = "url";
 
 }

@@ -17,13 +17,16 @@ import android.view.View;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.adapter.NewsListAdapter;
 import com.test.cheng.practice.model.bean.LastestNews;
 import com.test.cheng.practice.model.holder.TopNewsBannerHolder;
 import com.test.cheng.practice.model.net.ApiLoader;
+import com.test.cheng.practice.utils.DateUtils;
 import com.test.cheng.practice.utils.LogUtils;
 import com.test.cheng.practice.view.base.BaseActivity;
+import com.test.cheng.practice.view.main.NewsDetailActivity;
 import com.test.cheng.practice.widget.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -53,7 +56,7 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
     private List<LastestNews.StoriesEntity> storiesEntityList;  //消息列表
     private List<LastestNews.TopStoriesEntity> topStorieList;   //顶部展示列表
     private NewsListAdapter newsListAdapter;
-    private String lastday;  //标记上一天日期
+    private String today;  //标记当天日期
 
 
     public static void start(Context context) {
@@ -80,7 +83,9 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
 
         final View refreshView  = getLayoutInflater().inflate(R.layout.loading, null);
         View footerView  = getLayoutInflater().inflate(R.layout.loading, null);
+
         swipeRefresh.setHeaderViewBackgroundColor(0xff888888);
+//        swipeRefresh.setProgressViewOffset(false, 0, 100);
         swipeRefresh.setHeaderView(refreshView);
         swipeRefresh.setFooterView(footerView);
         swipeRefresh.setTargetScrollWithLayout(true);
@@ -102,7 +107,7 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
         swipeRefresh.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                if (!TextUtils.isEmpty(lastday)) getBeforeNews(lastday);
+                if (!TextUtils.isEmpty(today)) getBeforeNews(today);
             }
 
             @Override
@@ -130,11 +135,11 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
 
     @Override
     public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-       if (lastday != null && !lastday.equals(toolbar.getTitle().toString())) {
+       if (today != null && !today.equals(toolbar.getTitle().toString())) {
            toolbar.postDelayed(new Runnable() {
                @Override
                public void run() {
-                   toolbar.setTitle(lastday);
+                   toolbar.setTitle(today + " " + DateUtils.getWeek(DateUtils.dateFormatTransfer(today)));
                }
            }, 500);
        }
@@ -142,7 +147,12 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
 
     /*** 获取最新消息*/
     private void getNewsList() {
-        swipeRefresh.setRefreshing(true);
+        swipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefresh.setRefreshing(true);
+            }
+        });
         ApiLoader.newApi().getLastedNews().enqueue(new Callback<LastestNews>() {
             @Override
             public void onResponse(Call<LastestNews> call, Response<LastestNews> response) {
@@ -151,7 +161,7 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
                 if (response.isSuccessful()) {
                     LastestNews lastestNews = response.body();
                     if (lastestNews != null && lastestNews.getStories() != null && lastestNews.getStories().size() > 0) {
-                        lastday = lastestNews.getDate();
+                        today = lastestNews.getDate();
                         storiesEntityList.clear();
                         storiesEntityList.addAll(lastestNews.getStories());
                         newsListAdapter.notifyDataSetChanged();
@@ -168,10 +178,18 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
                                 return new TopNewsBannerHolder();
                             }
                         }, topStorieList)    //设置需要切换的View
-                                .setPointViewVisible(true)    //设置指示器是否可见
-                                .setPageIndicator(new int[]{R.mipmap.navigation_drop_normal, R.mipmap.navigation_drop_selected})   //设置指示器圆点
-                                .startTurning(4000)     //设置自动切换（同时设置了切换时间间隔）
-                                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL); //设置指示器位置（左、中、右）
+                        .setPointViewVisible(true)    //设置指示器是否可见
+                        .setPageIndicator(new int[]{R.mipmap.navigation_drop_normal, R.mipmap.navigation_drop_selected})   //设置指示器圆点
+                        .startTurning(4000)     //设置自动切换（同时设置了切换时间间隔）
+                        .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL) //设置指示器位置（左、中、右）
+                        .setOnItemClickListener(new OnItemClickListener() {
+                              @Override
+                              public void onItemClick(int position) {
+                                    LogUtils.d("&&&&&&&&&&&&&&&&&&&&&&&&&");
+                                    NewsDetailActivity.start(HomeActivity.this, topStorieList.get(position).getId());
+                              }
+                        })
+                        .setManualPageable(true);
                     }
                 }
             }
@@ -180,6 +198,7 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
             public void onFailure(Call<LastestNews> call, Throwable t) {}
         });
     }
+
 
     /**
      * 获取特定日期前一天消息
@@ -194,7 +213,7 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
                 if (response == null || !response.isSuccessful()) { return; }
                 LastestNews lastestNews = response.body();
                 if (lastestNews != null && lastestNews.getStories() != null && lastestNews.getStories().size() > 0) {
-                    lastday = lastestNews.getDate();
+                    today = lastestNews.getDate();
                     storiesEntityList.addAll(lastestNews.getStories());
                     newsListAdapter.notifyDataSetChanged();
                 }
@@ -209,5 +228,4 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
 }

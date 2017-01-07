@@ -5,10 +5,8 @@
 
     <include layout="@layout/view_toolbar"/>
 
-    <WebView
-        android:id="@+id/webview"
+    <FrameLayout
+        android:id="@+id/frame_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </WebView>
+        android:layout_height="match_parent" />
 </LinearLayout>

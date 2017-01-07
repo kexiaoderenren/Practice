@@ -175,6 +175,23 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
         }
     };
 
+//    public void setProgressViewOffset(boolean scale, int start, int end) {
+//        mScale = scale;
+//        if (usingDefaultHeader) {
+//            defaultProgressView.setVisibility(View.GONE);
+//            mOriginalOffsetTop = mCurrentTargetOffsetTop = start;
+//            mSpinnerFinalOffset = end;
+//            mUsingCustomStart = true;
+//            defaultProgressView.invalidate();
+//        } else {
+//            mHeadViewContainer.setVisibility(View.GONE);
+//            mOriginalOffsetTop = mCurrentTargetOffsetTop = start;
+//            mSpinnerFinalOffset = end;
+//            mUsingCustomStart = true;
+//            mHeadViewContainer.invalidate();
+//        }
+//    }
+
     /**
      * 更新回调
      */
@@ -234,20 +251,16 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
          */
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
-        mMediumAnimationDuration = getResources().getInteger(
-                android.R.integer.config_mediumAnimTime);
+        mMediumAnimationDuration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 
         setWillNotDraw(false);
-        mDecelerateInterpolator = new DecelerateInterpolator(
-                DECELERATE_INTERPOLATION_FACTOR);
+        mDecelerateInterpolator = new DecelerateInterpolator(DECELERATE_INTERPOLATION_FACTOR);
 
-        final TypedArray a = context
-                .obtainStyledAttributes(attrs, LAYOUT_ATTRS);
+        final TypedArray a = context.obtainStyledAttributes(attrs, LAYOUT_ATTRS);
         setEnabled(a.getBoolean(0, true));
         a.recycle();
 
-        WindowManager wm = (WindowManager) context
-                .getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         final DisplayMetrics metrics = getResources().getDisplayMetrics();
         mHeaderViewWidth = (int) display.getWidth();
@@ -376,8 +389,7 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
         mHeadViewContainer.setVisibility(View.VISIBLE);
         mScaleAnimation = new Animation() {
             @Override
-            public void applyTransformation(float interpolatedTime,
-                                            Transformation t) {
+            public void applyTransformation(float interpolatedTime, Transformation t) {
                 setAnimationProgress(interpolatedTime);
             }
         };
@@ -403,8 +415,7 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
             ensureTarget();
             mRefreshing = refreshing;
             if (mRefreshing) {
-                animateOffsetToCorrectPosition(mCurrentTargetOffsetTop,
-                        mRefreshListener);
+                animateOffsetToCorrectPosition(mCurrentTargetOffsetTop, mRefreshListener);
             } else {
                 //startScaleDownAnimation(mRefreshListener);
                 animateOffsetToStartPosition(mCurrentTargetOffsetTop, mRefreshListener);
@@ -660,8 +671,6 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
 
             case MotionEvent.ACTION_MOVE:
                 if (mActivePointerId == INVALID_POINTER) {
-                    Log.e(LOG_TAG,
-                            "Got ACTION_MOVE event but don't have an active pointer id.");
                     return false;
                 }
 
@@ -742,8 +751,6 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
                 final int pointerIndex = MotionEventCompat.findPointerIndex(ev,
                         mActivePointerId);
                 if (pointerIndex < 0) {
-                    Log.e(LOG_TAG,
-                            "Got ACTION_MOVE event but have an invalid active pointer id.");
                     return false;
                 }
 
@@ -813,8 +820,6 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
             case MotionEvent.ACTION_CANCEL: {
                 if (mActivePointerId == INVALID_POINTER) {
                     if (action == MotionEvent.ACTION_UP) {
-                        Log.e(LOG_TAG,
-                                "Got ACTION_UP event but don't have an active pointer id.");
                     }
                     return false;
                 }
@@ -870,13 +875,11 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
             case MotionEvent.ACTION_DOWN:
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
                 mIsBeingDragged = false;
-                Log.d(LOG_TAG, "debug:onTouchEvent ACTION_DOWN");
                 break;
             case MotionEvent.ACTION_MOVE: {
                 final int pointerIndex = MotionEventCompat.findPointerIndex(ev,
                         mActivePointerId);
                 if (pointerIndex < 0) {
-                    Log.e(LOG_TAG, "Got ACTION_MOVE event but have an invalid active pointer id.");
                     return false;
                 }
                 final float y = MotionEventCompat.getY(ev, pointerIndex);
@@ -905,7 +908,7 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
             case MotionEvent.ACTION_CANCEL: {
                 if (mActivePointerId == INVALID_POINTER) {
                     if (action == MotionEvent.ACTION_UP) {
-                        Log.e(LOG_TAG, "Got ACTION_UP event but don't have an active pointer id.");
+
                     }
                     return false;
                 }
@@ -1068,8 +1071,7 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
             int targetTop = 0;
             int endTarget = 0;
             if (!mUsingCustomStart) {
-                endTarget = (int) (mSpinnerFinalOffset - Math
-                        .abs(mOriginalOffsetTop));
+                endTarget = (int) (mSpinnerFinalOffset - Math.abs(mOriginalOffsetTop));
             } else {
                 endTarget = (int) mSpinnerFinalOffset;
             }
@@ -1154,8 +1156,7 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
         final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
         if (pointerId == mActivePointerId) {
             final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-            mActivePointerId = MotionEventCompat.getPointerId(ev,
-                    newPointerIndex);
+            mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
         }
     }
 
