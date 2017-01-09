@@ -2,7 +2,9 @@ package com.test.cheng.practice.model.net;
 
 import com.test.cheng.practice.model.TestModel;
 import com.test.cheng.practice.model.bean.LastestNews;
+import com.test.cheng.practice.model.bean.NewsVo;
 import com.test.cheng.practice.model.bean.StartImgVo;
+import com.test.cheng.practice.model.bean.ThemesVo;
 import com.test.cheng.practice.utils.Constants;
 
 import java.util.Map;
@@ -11,7 +13,6 @@ import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -56,5 +57,8 @@ public interface ApiManager {
 
 
     @GET(Constants.URL_GET_NEWS_DETAIL)
-    Call<Object> getNewsDetail(@Path(Constants.PARAM_ID) String id);
+    Call<NewsVo> getNewsDetail(@Path(Constants.PARAM_ID) int id);
+
+    @GET(Constants.URL_GET_THEMES)
+    Call<ThemesVo> getThemes();
 }

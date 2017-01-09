@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -52,15 +53,33 @@ public class HtmlActivity extends BaseActivity {
     }
 
     private void init() {
-        FragmentManager fm = getSupportFragmentManager();
-        BaseFragment fragment = HtmlFragment.newIntance(url);
-        fm.beginTransaction().replace(R.id.frame_container, fragment, HtmlFragment.class.getSimpleName()).commitAllowingStateLoss();
+        if (getIntent() != null) {
+            url = getIntent().getStringExtra(Constants.PARAM_URL);
+            FragmentManager fm = getSupportFragmentManager();
+            HtmlFragment fragment = HtmlFragment.newIntance(url);
+            fragment.setHtmlInfoCallback(new HtmlFragment.HtmlInfoCallback() {
+                @Override
+                public void onReceivedTitle(String title) {
+                    if (!TextUtils.isEmpty(title)) {
+                        toolbar.setTitle(title);
+                    }
+                }
+            });
+            fm.beginTransaction().replace(R.id.frame_container, fragment, HtmlFragment.class.getSimpleName()).commitAllowingStateLoss();
+        }
     }
 
-
     private void initToobar() {
-        toolbar.setTitle("html");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

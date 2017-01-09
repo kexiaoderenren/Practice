@@ -30,9 +30,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.main.NewsDetailActivity" android:screenOrientation="portrait">
-
-        </activity>
+        <activity android:name=".view.main.NewsDetailActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".view.discover.NewReleaseActivity" android:screenOrientation="portrait"></activity>
 
 
     </application>

@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FFc107</color>
+    <color name="maincolor">@color/colorPrimary</color>
     <color name="colorPrimaryDark">#FFD54F</color> <!-- 状态栏-->
     <color name="colorAccent">@color/white</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="black_333333">#333333</color>
     <color name="yellow_bottom_bar">#FFE57F</color>
 
     <color name="default_deliver_color">#aaaaaa</color>
     <color name="bg_cardview">#dddddd</color>
+
+    <color name="orange_ff5722">#ff5722</color>
+
+
 </resources>

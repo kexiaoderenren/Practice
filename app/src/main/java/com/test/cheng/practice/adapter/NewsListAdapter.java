@@ -29,7 +29,7 @@ public class NewsListAdapter extends BaseQuickAdapter<LastestNews.StoriesEntity,
         baseViewHolder.convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewsDetailActivity.start(mContext, s.getId());
+                NewsDetailActivity.start(mContext, s.getId(), s.getTitle());
             }
         });
     }

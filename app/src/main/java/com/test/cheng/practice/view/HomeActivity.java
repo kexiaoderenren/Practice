@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -21,11 +23,14 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.adapter.NewsListAdapter;
 import com.test.cheng.practice.model.bean.LastestNews;
+import com.test.cheng.practice.model.bean.ThemesVo;
 import com.test.cheng.practice.model.holder.TopNewsBannerHolder;
 import com.test.cheng.practice.model.net.ApiLoader;
 import com.test.cheng.practice.utils.DateUtils;
 import com.test.cheng.practice.utils.LogUtils;
+import com.test.cheng.practice.utils.ToastUtils;
 import com.test.cheng.practice.view.base.BaseActivity;
+import com.test.cheng.practice.view.discover.NewReleaseActivity;
 import com.test.cheng.practice.view.main.NewsDetailActivity;
 import com.test.cheng.practice.widget.SuperSwipeRefreshLayout;
 
@@ -37,13 +42,12 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.POST;
 
 /**
  * 实现抽屉效果Activity
  * Created by keixaoderenren on 2017/1/3.
  */
-public class HomeActivity extends BaseActivity implements NestedScrollView.OnScrollChangeListener{
+public class HomeActivity extends BaseActivity implements NestedScrollView.OnScrollChangeListener, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerview) RecyclerView recyclerview;
@@ -80,12 +84,11 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.zhihu_report, R.string.zhihu_report);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
+        navView.setNavigationItemSelectedListener(this);
         final View refreshView  = getLayoutInflater().inflate(R.layout.loading, null);
         View footerView  = getLayoutInflater().inflate(R.layout.loading, null);
 
         swipeRefresh.setHeaderViewBackgroundColor(0xff888888);
-//        swipeRefresh.setProgressViewOffset(false, 0, 100);
         swipeRefresh.setHeaderView(refreshView);
         swipeRefresh.setFooterView(footerView);
         swipeRefresh.setTargetScrollWithLayout(true);
@@ -131,6 +134,25 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
         recyclerview.setAdapter(newsListAdapter);
 
         getNewsList();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            case R.id.new_releases:
+                NewReleaseActivity.start(this);
+                return true;
+            case R.id.setting:
+                ToastUtils.show(this, "------setting");
+                return true;
+            case R.id.about:
+                ToastUtils.show(this, "------about");
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -185,8 +207,8 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
                         .setOnItemClickListener(new OnItemClickListener() {
                               @Override
                               public void onItemClick(int position) {
-                                    LogUtils.d("&&&&&&&&&&&&&&&&&&&&&&&&&");
-                                    NewsDetailActivity.start(HomeActivity.this, topStorieList.get(position).getId());
+                                   LastestNews.TopStoriesEntity entity = topStorieList.get(position);
+                                   NewsDetailActivity.start(HomeActivity.this, entity.getId(), entity.getTitle());
                               }
                         })
                         .setManualPageable(true);
@@ -198,7 +220,6 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
             public void onFailure(Call<LastestNews> call, Throwable t) {}
         });
     }
-
 
     /**
      * 获取特定日期前一天消息
@@ -222,6 +243,15 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
             @Override
             public void onFailure(Call<LastestNews> call, Throwable t) {}
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void initToolbar() {

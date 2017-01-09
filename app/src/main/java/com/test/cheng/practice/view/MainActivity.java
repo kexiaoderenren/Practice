@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             } else if (fragmentName.equals(MineFragment.class.getSimpleName())) {
                 fragment = new MineFragment();
             }
-            mFragmentManager.beginTransaction().add(R.id.contentContainer, fragment, fragmentName).commit();
+            mFragmentManager.beginTransaction().add(R.id.frame_container, fragment, fragmentName).commit();
         }
         if (mCurrentFragment != null) {
             mFragmentManager.beginTransaction().hide(mCurrentFragment).commit();

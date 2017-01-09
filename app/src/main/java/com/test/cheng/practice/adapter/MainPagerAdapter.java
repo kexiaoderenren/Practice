@@ -11,10 +11,10 @@ import java.util.List;
  */
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] tabs;
+    private List<String> tabs;
     private List<Fragment> fragments;
 
-    public MainPagerAdapter(FragmentManager fm, String[] tabs, List<Fragment> fragments) {
+    public MainPagerAdapter(FragmentManager fm, List<String> tabs, List<Fragment> fragments) {
         super(fm);
         this.tabs = tabs;
         this.fragments = fragments;
@@ -31,11 +31,11 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return tabs.length;
+        return (tabs == null) ? 0 :tabs.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabs[position];
+        return tabs.get(position);
     }
 }
