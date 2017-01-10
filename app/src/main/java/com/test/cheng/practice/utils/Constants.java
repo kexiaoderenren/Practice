@@ -9,6 +9,8 @@ public class Constants {
     public static final String TEST_URL = "http://images.wine9.com/activity/goodspic/cp/10517/lrxm_06.jpg";
     public static final String TEST_URL2 = "http://image.dianshengsheng.com/goods/store_10/goods_145/201608291815458834.jpg";
 
+    public static final String URL_PERSONAL_HOME = "https://github.com/kexiaoderenren";
+
     public static final int Constant_4000 = 500;
     public static final int Constant_200 = 200;
     public static final int SUCCESS = Constant_200;
@@ -47,6 +49,12 @@ public class Constants {
      * http://news-at.zhihu.com/api/4/themes
      */
     public static final String URL_GET_THEMES = "/api/4/themes";
+
+    /**
+     * 主题日报内容查看
+     * http://news-at.zhihu.com/api/4/theme/11
+     */
+    public static final String URL_GET_THEMES_DETAIL = "/api/4/theme/{id}";
 
     /**
      * **********************************

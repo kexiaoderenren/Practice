@@ -4,7 +4,8 @@ import com.test.cheng.practice.model.TestModel;
 import com.test.cheng.practice.model.bean.LastestNews;
 import com.test.cheng.practice.model.bean.NewsVo;
 import com.test.cheng.practice.model.bean.StartImgVo;
-import com.test.cheng.practice.model.bean.ThemesVo;
+import com.test.cheng.practice.model.bean.ThemesCategoryVo;
+import com.test.cheng.practice.model.bean.ThemesListVo;
 import com.test.cheng.practice.utils.Constants;
 
 import java.util.Map;
@@ -60,5 +61,8 @@ public interface ApiManager {
     Call<NewsVo> getNewsDetail(@Path(Constants.PARAM_ID) int id);
 
     @GET(Constants.URL_GET_THEMES)
-    Call<ThemesVo> getThemes();
+    Call<ThemesCategoryVo> getThemes();
+
+    @GET(Constants.URL_GET_THEMES_DETAIL)
+    Call<ThemesListVo> getThemesDetail(@Path(Constants.PARAM_ID) int id);
 }

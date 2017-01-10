@@ -23,13 +23,14 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.adapter.NewsListAdapter;
 import com.test.cheng.practice.model.bean.LastestNews;
-import com.test.cheng.practice.model.bean.ThemesVo;
 import com.test.cheng.practice.model.holder.TopNewsBannerHolder;
 import com.test.cheng.practice.model.net.ApiLoader;
+import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.DateUtils;
 import com.test.cheng.practice.utils.LogUtils;
 import com.test.cheng.practice.utils.ToastUtils;
 import com.test.cheng.practice.view.base.BaseActivity;
+import com.test.cheng.practice.view.common.HtmlActivity;
 import com.test.cheng.practice.view.discover.NewReleaseActivity;
 import com.test.cheng.practice.view.main.NewsDetailActivity;
 import com.test.cheng.practice.widget.SuperSwipeRefreshLayout;
@@ -146,10 +147,10 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
                 NewReleaseActivity.start(this);
                 return true;
             case R.id.setting:
-                ToastUtils.show(this, "------setting");
+
                 return true;
             case R.id.about:
-                ToastUtils.show(this, "------about");
+                HtmlActivity.start(this, Constants.URL_PERSONAL_HOME);
                 return true;
         }
         return false;
@@ -178,7 +179,6 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
         ApiLoader.newApi().getLastedNews().enqueue(new Callback<LastestNews>() {
             @Override
             public void onResponse(Call<LastestNews> call, Response<LastestNews> response) {
-                LogUtils.i(response.body().toString());
                 swipeRefresh.setRefreshing(false);
                 if (response.isSuccessful()) {
                     LastestNews lastestNews = response.body();

@@ -6,14 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.adapter.MainPagerAdapter;
-import com.test.cheng.practice.model.bean.ThemesVo;
+import com.test.cheng.practice.model.bean.ThemesCategoryVo;
 import com.test.cheng.practice.model.net.ApiLoader;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.view.base.BaseActivity;
-import com.test.cheng.practice.view.main.MessageFragment;
+import com.test.cheng.practice.view.main.DiscoverFragment;
 import com.test.cheng.practice.widget.NoSrcollViewPager;
 
 import java.util.ArrayList;
@@ -28,12 +30,13 @@ import retrofit2.Response;
 /**
  * Created by kexiaoderenren on 2017/1/9.
  */
-public class NewReleaseActivity extends BaseActivity {
+public class NewReleaseActivity extends BaseActivity implements TabLayout.OnTabSelectedListener {
 
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.vp_pager) NoSrcollViewPager vpPager;
     @BindView(R.id.tl_title) TabLayout tlTitle;
 
-    private ThemesVo themesVo;
+    private ThemesCategoryVo themesVo;
     private List<String> tabTitles;
     private List<Fragment> fragments;
     private MainPagerAdapter pageAdapter;
@@ -48,6 +51,7 @@ public class NewReleaseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_release);
         ButterKnife.bind(this);
+        initToobar();
         init();
     }
 
@@ -58,9 +62,11 @@ public class NewReleaseActivity extends BaseActivity {
     }
 
     private void getThemes() {
-        ApiLoader.newApi().getThemes().enqueue(new Callback<ThemesVo>() {
+        showHoldLoading();
+        ApiLoader.newApi().getThemes().enqueue(new Callback<ThemesCategoryVo>() {
             @Override
-            public void onResponse(Call<ThemesVo> call, Response<ThemesVo> response) {
+            public void onResponse(Call<ThemesCategoryVo> call, Response<ThemesCategoryVo> response) {
+                hideHoldLoading();
                 if (response.code() == Constants.SUCCESS) {
                     themesVo = response.body();
                     getTabTitles(themesVo);
@@ -75,13 +81,13 @@ public class NewReleaseActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<ThemesVo> call, Throwable t) {}
+            public void onFailure(Call<ThemesCategoryVo> call, Throwable t) {}
         });
     }
 
     private void initFragments(int count) {
         for (int i=0; i<count; i++) {
-            fragments.add(new MessageFragment());
+            fragments.add(DiscoverFragment.newIntance(themesVo.getOthers().get(i).getId()));
         }
     }
 
@@ -89,12 +95,42 @@ public class NewReleaseActivity extends BaseActivity {
      * get tab's tile
      * @param themesVo
      */
-    private void getTabTitles(ThemesVo themesVo) {
+    private void getTabTitles(ThemesCategoryVo themesVo) {
         if (themesVo == null || themesVo.getOthers()==null || themesVo.getOthers().size() <= 0) {
             return;
         }
-        for (ThemesVo.OthersBean bean : themesVo.getOthers()) {
+        for (ThemesCategoryVo.OthersBean bean : themesVo.getOthers()) {
             tabTitles.add(bean.getName());
         }
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+
+    private void initToobar() {
+        toolbar.setTitle(getString(R.string.find));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
