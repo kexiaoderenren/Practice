@@ -11,7 +11,7 @@ public class Constants {
 
     public static final String URL_PERSONAL_HOME = "https://github.com/kexiaoderenren";
 
-    public static final int Constant_4000 = 500;
+    public static final int Constant_4000 = 3000;
     public static final int Constant_200 = 200;
     public static final int SUCCESS = Constant_200;
 

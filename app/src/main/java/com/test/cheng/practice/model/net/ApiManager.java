@@ -37,11 +37,12 @@ public interface ApiManager {
     @GET(PATH)
     Observable<TestModel> testRxJavaHttpGet(@Query("submit") String submit);
 
-    @GET(Constants.URL_GET_START_IMAGES)
-    Observable<StartImgVo> getStartImg();
 
     @GET(Constants.URL_GET_START_IMAGES)
     Call<StartImgVo> getStartImg2(@Path("widthAndHeight") String widthAndHeight);
+
+    @GET(Constants.URL_GET_START_IMAGES)
+    Observable<StartImgVo> getStartImg(@Path("widthAndHeight") String widthAndHeight);
 
     @GET(Constants.URL_GET_LATEST_NEWS)
     Call<LastestNews> getLastedNews();

@@ -20,6 +20,10 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by kexiaoderenren on 2017/1/3.
@@ -28,6 +32,8 @@ public class StartActivity extends BaseActivity {
 
     @BindView(R.id.img_start) ImageView imgStart;
     @BindView(R.id.tv_txt) TextView tvTxt;
+
+    private Subscriber subscriber;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,22 +48,26 @@ public class StartActivity extends BaseActivity {
                 .append(DeviceUtils.getSreenWidth(this))
                 .append("*")
                 .append(DeviceUtils.getSreenHeight(this));
-        ApiLoader.newApi().getStartImg2(stringBuffer.toString()).enqueue(new Callback<StartImgVo>() {
-            @Override
-            public void onResponse(Call<StartImgVo> call, Response<StartImgVo> response) {
-                if (response.isSuccessful()) {
-                    LogUtils.d(response.body().toString());
-                    StartImgVo vo = response.body();
-                    if (vo != null) {
-                        ImageLoaderUtils.loadImg(StartActivity.this, vo.getImg(), imgStart);
-                        tvTxt.setText(vo.getText());
-                    }
-                }
-            }
+        if (subscriber == null) {
+            subscriber = new Subscriber<StartImgVo>() {
 
-            @Override
-            public void onFailure(Call<StartImgVo> call, Throwable t) {}
-        });
+                @Override
+                public void onCompleted() {}
+
+                @Override
+                public void onError(Throwable e) {}
+
+                @Override
+                public void onNext(StartImgVo startImgVo) {
+                    ImageLoaderUtils.loadImg(StartActivity.this, startImgVo.getImg(), imgStart);
+                    tvTxt.setText(startImgVo.getText());
+                }
+            };
+        }
+        ApiLoader.newApi().getStartImg(stringBuffer.toString())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
     }
 
     @Override
@@ -76,5 +86,9 @@ public class StartActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         ImageLoaderUtils.pauseRequest();
+        if (subscriber != null && !subscriber.isUnsubscribed()) {
+            LogUtils.d("-----subscriber.unsubscribe()");
+            subscriber.unsubscribe();
+        }
     }
 }
