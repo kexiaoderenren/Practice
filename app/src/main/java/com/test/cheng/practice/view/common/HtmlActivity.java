@@ -39,6 +39,7 @@ public class HtmlActivity extends BaseActivity {
 
     public static void start(Context context, String url) {
         Intent intent = new Intent(context, HtmlActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Constants.PARAM_URL, url);
         context.startActivity(intent);
     }

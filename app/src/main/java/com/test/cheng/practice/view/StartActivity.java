@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.util.Util;
 import com.test.cheng.practice.R;
+import com.test.cheng.practice.handler.StartHandler;
 import com.test.cheng.practice.model.bean.StartImgVo;
 import com.test.cheng.practice.model.net.ApiLoader;
 import com.test.cheng.practice.utils.Constants;
@@ -17,12 +17,9 @@ import com.test.cheng.practice.view.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -33,7 +30,7 @@ public class StartActivity extends BaseActivity {
     @BindView(R.id.img_start) ImageView imgStart;
     @BindView(R.id.tv_txt) TextView tvTxt;
 
-    private Subscriber subscriber;
+    private StartHandler handler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,51 +41,51 @@ public class StartActivity extends BaseActivity {
     }
 
     private void init() {
+        handler = new StartHandler(this);
         StringBuffer stringBuffer = new StringBuffer()
                 .append(DeviceUtils.getSreenWidth(this))
                 .append("*")
                 .append(DeviceUtils.getSreenHeight(this));
-        if (subscriber == null) {
-            subscriber = new Subscriber<StartImgVo>() {
-
-                @Override
-                public void onCompleted() {}
-
-                @Override
-                public void onError(Throwable e) {}
-
-                @Override
-                public void onNext(StartImgVo startImgVo) {
-                    ImageLoaderUtils.loadImg(StartActivity.this, startImgVo.getImg(), imgStart);
-                    tvTxt.setText(startImgVo.getText());
-                }
-            };
-        }
         ApiLoader.newApi().getStartImg(stringBuffer.toString())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<StartImgVo>() {
+
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(StartImgVo startImgVo) {
+                        ImageLoaderUtils.loadImg(StartActivity.this, startImgVo.getImg(), imgStart);
+                        tvTxt.setText(startImgVo.getText());
+                    }
+                });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        imgStart.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                HomeActivity.start(StartActivity.this);
-                finish();
-            }
-        }, Constants.Constant_4000);
+        handler.sendEmptyMessageDelayed(StartHandler.INTENT_MAIN, Constants.Constant_4000);
+    }
+
+    public void intentMain() {
+        HomeActivity.start(StartActivity.this);
+        finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ImageLoaderUtils.pauseRequest();
-        if (subscriber != null && !subscriber.isUnsubscribed()) {
-            LogUtils.d("-----subscriber.unsubscribe()");
-            subscriber.unsubscribe();
+        if (handler.hasMessages(StartHandler.INTENT_MAIN)) {
+            handler.removeMessages(StartHandler.INTENT_MAIN);
         }
+        ImageLoaderUtils.pauseRequest();
     }
+
 }

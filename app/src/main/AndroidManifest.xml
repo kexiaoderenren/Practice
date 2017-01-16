@@ -27,11 +27,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.HomeActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:launchMode="singleTask" android:screenOrientation="portrait">
         </activity>
         <activity android:name=".view.main.NewsDetailActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".view.discover.NewReleaseActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".view.common.PhotoViewActivity"></activity>
 
 
     </application>

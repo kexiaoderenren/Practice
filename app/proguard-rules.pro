@@ -106,3 +106,8 @@
 
 #javaBean类不混淆
 -keep class com.test.cheng.practice.model.bean.** { *; }
+
+#h5
+-keepclassmembers class com.test.cheng.practice.view.common.HtmlFragment$JavascriptInterface {
+    <methods>;
+}

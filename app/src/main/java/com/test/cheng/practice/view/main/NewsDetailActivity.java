@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -12,16 +11,13 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.model.bean.NewsVo;
 import com.test.cheng.practice.model.net.ApiLoader;
-import com.test.cheng.practice.model.net.ApiManager;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.ImageLoaderUtils;
 import com.test.cheng.practice.utils.LogUtils;
@@ -88,10 +84,12 @@ public class NewsDetailActivity extends BaseActivity {
 
                     newsVo = response.body();
                     ImageLoaderUtils.loadImg(NewsDetailActivity.this, newsVo.getImage(), imgBackdrop);
+                    imgBackdrop.setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
                     tvImgAuthor.setText(newsVo.getImage_source());
 
-                    String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/css/news.css\" type=\"text/css\">";
+                    String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/news.css\" type=\"text/css\">";
                     String html = "<html><head>" + css + "</head><body>" + newsVo.getBody() + "</body></html>";
+                    LogUtils.i(html);
                     initViewLayout(html);
                 }
             }
@@ -102,6 +100,7 @@ public class NewsDetailActivity extends BaseActivity {
             }
         });
     }
+
 
     private void initViewLayout(String source) {
         FragmentManager fm = getSupportFragmentManager();

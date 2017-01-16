@@ -1,7 +1,11 @@
 package com.test.cheng.practice.view.common;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,6 +20,8 @@ import android.widget.FrameLayout;
 import com.test.cheng.practice.App;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.utils.Constants;
+import com.test.cheng.practice.utils.IntentUtils;
+import com.test.cheng.practice.utils.LogUtils;
 import com.test.cheng.practice.view.base.BaseFragment;
 
 import butterknife.BindView;
@@ -95,11 +101,13 @@ public class HtmlFragment extends BaseFragment {
         webSettings.setDomStorageEnabled(true); // 开启DOM storage API 功能
         webSettings.setLoadsImagesAutomatically(true);
         webSettings.setBlockNetworkImage(false);
+
         //解决html太大超出屏幕
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setDomStorageEnabled(true);
 
+        webview.addJavascriptInterface(new JavascriptInterface(getMyActivity()), "imagelistner");
         if (htmlLoadType == URL_TYPE) {
             webview.loadUrl(url);
         } else {
@@ -107,8 +115,9 @@ public class HtmlFragment extends BaseFragment {
         }
         webview.setWebViewClient(new WebViewClient() {
 
+            @Override
             public boolean shouldOverrideUrlLoading(WebView view,String url){
-                HtmlActivity.start(getMyActivity(), url);
+                IntentUtils.startSystemBrowser(getMyActivity(), url);
                 return true;
             }
 
@@ -120,6 +129,7 @@ public class HtmlFragment extends BaseFragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                addImageClickListner(); // html加载完成之后，添加监听图片的点击js函数
             }
 
             @Override
@@ -134,6 +144,37 @@ public class HtmlFragment extends BaseFragment {
                 if (htmlInfoCallback != null) { htmlInfoCallback.onReceivedTitle(title); }
             }
         });
+    }
+
+    // 注入js函数监听
+    private void addImageClickListner() {
+        // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+        webview.loadUrl("javascript:(function(){" +
+                "var objs = document.getElementsByTagName(\"img\"); " +
+                "for(var i=0;i<objs.length;i++)  " +
+                "{"
+                + "    objs[i].onclick=function()  " +
+                "    {  "
+                + "        window.imagelistner.openImage(this.src);  " +
+                "    }  " +
+                "}" +
+                "})()");
+    }
+
+    // js通信接口
+    public class JavascriptInterface {
+
+        private Context context;
+
+        public JavascriptInterface(Context context) {
+            this.context = context;
+        }
+
+        @android.webkit.JavascriptInterface
+        public void openImage(String img) {
+            LogUtils.i(img);
+            PhotoViewActivity.start(getMyActivity(), img);
+        }
     }
 
     @Override
