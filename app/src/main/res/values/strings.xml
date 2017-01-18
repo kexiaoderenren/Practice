@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">Practice</string>
+    <string name="app_name">知乎日报</string>
     <string name="just_working">正在处理</string>
     <string name="mine">我的</string>
     <string name="zhihu_report">知乎日报</string>
     <string name="find">发现</string>
+    <string name="network_connect_failed">当前网络不可用，请检查网络情况</string>
 </resources>

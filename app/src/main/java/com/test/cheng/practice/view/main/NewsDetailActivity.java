@@ -18,9 +18,11 @@ import android.widget.TextView;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.model.bean.NewsVo;
 import com.test.cheng.practice.model.net.ApiLoader;
+import com.test.cheng.practice.model.net.BaseSubscriber;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.ImageLoaderUtils;
 import com.test.cheng.practice.utils.LogUtils;
+import com.test.cheng.practice.utils.ToastUtils;
 import com.test.cheng.practice.view.base.BaseActivity;
 import com.test.cheng.practice.view.base.BaseFragment;
 import com.test.cheng.practice.view.common.HtmlFragment;
@@ -30,6 +32,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by kexiaoderenren on 2017/1/7.
@@ -45,7 +49,6 @@ public class NewsDetailActivity extends BaseActivity {
 
     private int id;
     private String title = "";
-    private NewsVo newsVo;
 
     public static void start(Context context, int id, String title) {
         Intent intent = new Intent(context, NewsDetailActivity.class);
@@ -74,31 +77,24 @@ public class NewsDetailActivity extends BaseActivity {
 
     private void getNewsDetail() {
         showHoldLoading();
-        ApiLoader.newApi().getNewsDetail(id).enqueue(new Callback<NewsVo>() {
+        ApiLoader.newApi().getNewsDetail2(id)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<NewsVo>(NewsDetailActivity.this) {
 
-            @Override
-            public void onResponse(Call<NewsVo> call, Response<NewsVo> response) {
-                hideHoldLoading();
-                if (response.code() == 200) {
-                    LogUtils.i(response.body().toString());
+                    @Override
+                    public void onNext(NewsVo newsVo) {
+                        String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/news.css\" type=\"text/css\">";
+                        String html = "<html><head>" + css + "</head><body>" + newsVo.getBody() + "</body></html>";
+                        LogUtils.i(html);
 
-                    newsVo = response.body();
-                    ImageLoaderUtils.loadImg(NewsDetailActivity.this, newsVo.getImage(), imgBackdrop);
-                    imgBackdrop.setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
-                    tvImgAuthor.setText(newsVo.getImage_source());
-
-                    String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/news.css\" type=\"text/css\">";
-                    String html = "<html><head>" + css + "</head><body>" + newsVo.getBody() + "</body></html>";
-                    LogUtils.i(html);
-                    initViewLayout(html);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<NewsVo> call, Throwable t) {
-                hideHoldLoading();
-            }
-        });
+                        ImageLoaderUtils.loadImg(NewsDetailActivity.this, newsVo.getImage(), imgBackdrop);
+                        imgBackdrop.setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+                        tvImgAuthor.setText(newsVo.getImage_source());
+                        initViewLayout(html);
+                    }
+                });
     }
 
 

@@ -61,6 +61,9 @@ public interface ApiManager {
     @GET(Constants.URL_GET_NEWS_DETAIL)
     Call<NewsVo> getNewsDetail(@Path(Constants.PARAM_ID) int id);
 
+    @GET(Constants.URL_GET_NEWS_DETAIL)
+    Observable<NewsVo> getNewsDetail2(@Path(Constants.PARAM_ID) int id);
+
     @GET(Constants.URL_GET_THEMES)
     Call<ThemesCategoryVo> getThemes();
 

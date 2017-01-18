@@ -14,4 +14,12 @@ public class LogUtils {
     public static void i(String content) {
         Logger.i(content);
     }
+
+    public static void e(String content) {
+        Logger.e(content);
+    }
+
+    public static void net(String content) {
+        Logger.i("net:" + content);
+    }
 }
