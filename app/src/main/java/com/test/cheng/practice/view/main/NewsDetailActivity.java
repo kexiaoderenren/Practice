@@ -101,7 +101,7 @@ public class NewsDetailActivity extends BaseActivity {
     private void initViewLayout(String source) {
         FragmentManager fm = getSupportFragmentManager();
         BaseFragment fragment = HtmlFragment.newIntance(HtmlFragment.DATA_TYPE, source);
-        fm.beginTransaction().replace(R.id.frame_container, fragment, HtmlFragment.class.getSimpleName()).commitAllowingStateLoss();
+        fm.beginTransaction().replace(R.id.cardview_container, fragment, HtmlFragment.class.getSimpleName()).commitAllowingStateLoss();
     }
 
     private void initToolbar() {
