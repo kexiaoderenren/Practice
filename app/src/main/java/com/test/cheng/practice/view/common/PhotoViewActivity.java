@@ -21,7 +21,7 @@ import butterknife.OnClick;
 import uk.co.senab.photoview.PhotoView;
 
 /**
- * Created by gaokuncheng on 2017/1/16.
+ * Created by kexiaoderenren on 2017/1/16.
  */
 public class PhotoViewActivity extends BaseActivity {
 
