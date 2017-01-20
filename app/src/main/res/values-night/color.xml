@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 与 values目录下的colors.xml颜色相反-->
+    <color name="black">#FFFFFF</color>
+    <color name="colorPrimary">#424242</color>
+</resources>

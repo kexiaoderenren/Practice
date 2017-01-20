@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.test.cheng.practice.R;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.IntentUtils;
 import com.test.cheng.practice.utils.LogUtils;
+import com.test.cheng.practice.utils.SharePreferenceUtils;
 import com.test.cheng.practice.view.base.BaseFragment;
 
 import butterknife.BindView;

@@ -12,6 +12,12 @@ import com.google.gson.Gson;
  */
 public class SharePreferenceUtils {
 
+    /**
+     * 夜间模式KEY
+     * true 白天
+     * false 黑夜
+     */
+    public final static String SP_KEY_BRIGHTNESS = "key_brightness";
 
     public static SharedPreferences getSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);

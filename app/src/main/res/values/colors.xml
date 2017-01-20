@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#FFc107</color>
     <color name="maincolor">@color/colorPrimary</color>
-    <color name="colorPrimaryDark">#FFD54F</color> <!-- 状态栏-->
+    <color name="colorPrimaryDark">@color/colorPrimary</color> <!-- 状态栏-->
     <color name="colorAccent">@color/white</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>

@@ -21,4 +21,9 @@
         android:icon="@mipmap/ic_print_error"
         android:title="about"
         />
+    <item
+        android:id="@+id/brightness"
+        android:icon="@mipmap/ic_brightness"
+        android:title="brightness"
+        />
 </menu>

@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,14 +21,17 @@ import android.view.View;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.orhanobut.logger.Logger;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.adapter.NewsListAdapter;
 import com.test.cheng.practice.model.bean.LastestNews;
 import com.test.cheng.practice.model.holder.TopNewsBannerHolder;
 import com.test.cheng.practice.model.net.ApiLoader;
+import com.test.cheng.practice.model.net.LoggingInterceptor;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.DateUtils;
 import com.test.cheng.practice.utils.LogUtils;
+import com.test.cheng.practice.utils.SharePreferenceUtils;
 import com.test.cheng.practice.utils.ToastUtils;
 import com.test.cheng.practice.view.base.BaseActivity;
 import com.test.cheng.practice.view.common.HtmlActivity;
@@ -152,8 +156,27 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
             case R.id.about:
                 HtmlActivity.start(this, Constants.URL_PERSONAL_HOME);
                 return true;
+            case R.id.brightness:
+                /**
+                 MODE_NIGHT_NO 日间模式
+                 MODE_NIGHT_YES 夜间模式
+                 MODE_NIGHT_AUTO 根据时间自动切换日夜间模式
+                 MODE_NIGHT_FOLLOW_SYSTEM 默认模式，就是跟随系统的设置，
+                 据说有可能以后会在android系统设置中添加日夜间模式的设置，此时如果你的app是默认模式，会根据系统设置变化日夜间模式
+                 */
+                if (SharePreferenceUtils.getBoolean(this, SharePreferenceUtils.SP_KEY_BRIGHTNESS, true)) {
+                    SharePreferenceUtils.putBoolean(this, SharePreferenceUtils.SP_KEY_BRIGHTNESS, false);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    recreate();
+                } else {
+                    SharePreferenceUtils.putBoolean(this, SharePreferenceUtils.SP_KEY_BRIGHTNESS, true);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    recreate();
+                }
+                return true;
+            default:
+                return false;
         }
-        return false;
     }
 
     @Override

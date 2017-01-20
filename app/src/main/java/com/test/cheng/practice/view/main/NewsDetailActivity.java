@@ -86,13 +86,19 @@ public class NewsDetailActivity extends BaseActivity {
                     @Override
                     public void onNext(NewsVo newsVo) {
                         String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/news.css\" type=\"text/css\">";
-                        String html = "<html><head>" + css + "</head><body>" + newsVo.getBody() + "</body></html>";
-                        LogUtils.i(html);
+
+                        StringBuffer html = new StringBuffer().append("<html><head>")
+                                .append(css)
+                                .append("</head><body>")
+                                .append(newsVo.getBody())
+                                .append("</body></html>");
+                        //String html = "<html><head>" + css + "</head><body>" + newsVo.getBody() + "</body></html>";
+                        LogUtils.i(html.toString());
 
                         ImageLoaderUtils.loadImg(NewsDetailActivity.this, newsVo.getImage(), imgBackdrop);
                         imgBackdrop.setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
                         tvImgAuthor.setText(newsVo.getImage_source());
-                        initViewLayout(html);
+                        initViewLayout(html.toString());
                     }
                 });
     }

@@ -2,9 +2,12 @@ package com.test.cheng.practice.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatDelegate;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+import com.test.cheng.practice.App;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.handler.StartHandler;
 import com.test.cheng.practice.model.bean.StartImgVo;
@@ -14,6 +17,8 @@ import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.DeviceUtils;
 import com.test.cheng.practice.utils.ImageLoaderUtils;
 import com.test.cheng.practice.utils.LogUtils;
+import com.test.cheng.practice.utils.SharePreferenceUtils;
+import com.test.cheng.practice.utils.ToastUtils;
 import com.test.cheng.practice.view.base.BaseActivity;
 
 import butterknife.BindView;
@@ -34,6 +39,14 @@ public class StartActivity extends BaseActivity {
 
     private StartHandler handler;
     private Subscriber subscriber;
+
+    static {
+        if (SharePreferenceUtils.getBoolean(App.getInstance(), SharePreferenceUtils.SP_KEY_BRIGHTNESS, true)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else { //夜间模式
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
