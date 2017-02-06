@@ -18,6 +18,7 @@ import com.test.cheng.practice.model.bean.ThemesListVo;
 import com.test.cheng.practice.presenter.DiscoverPresenter;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.ImageLoaderUtils;
+import com.test.cheng.practice.utils.ToastUtils;
 import com.test.cheng.practice.view.base.BaseFragment;
 import com.test.cheng.practice.widget.SuperSwipeRefreshLayout;
 
@@ -139,5 +140,7 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverListView{
     public void showError(String msg) {}
 
     @Override
-    public void showNetError(String msg) {}
+    public void showNetError(String msg) {
+        ToastUtils.show(getMyActivity(), msg);
+    }
 }

@@ -13,6 +13,7 @@ import com.test.cheng.practice.R;
 import com.test.cheng.practice.adapter.MainPagerAdapter;
 import com.test.cheng.practice.model.bean.ThemesCategoryVo;
 import com.test.cheng.practice.model.net.ApiLoader;
+import com.test.cheng.practice.model.net.BaseCallback;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.view.base.BaseActivity;
 import com.test.cheng.practice.widget.NoSrcollViewPager;
@@ -62,25 +63,21 @@ public class NewReleaseActivity extends BaseActivity implements TabLayout.OnTabS
 
     private void getThemes() {
         showHoldLoading();
-        ApiLoader.newApi().getThemes().enqueue(new Callback<ThemesCategoryVo>() {
+        ApiLoader.newApi().getThemes().enqueue(new BaseCallback<ThemesCategoryVo>() {
             @Override
-            public void onResponse(Call<ThemesCategoryVo> call, Response<ThemesCategoryVo> response) {
-                hideHoldLoading();
-                if (response.code() == Constants.SUCCESS) {
-                    themesVo = response.body();
-                    getTabTitles(themesVo);
-                    if (tabTitles.size() > 0) {
-                        initFragments(tabTitles.size());
-                        pageAdapter = new MainPagerAdapter(getSupportFragmentManager(), tabTitles, fragments);
-                        vpPager.setAdapter(pageAdapter);
-                        tlTitle.setupWithViewPager(vpPager);
-                        tlTitle.setTabsFromPagerAdapter(pageAdapter);
-                    }
+            protected void success(ThemesCategoryVo result) {
+                themesVo = result;
+                for (ThemesCategoryVo.OthersBean bean : themesVo.getOthers()) {
+                    tabTitles.add(bean.getName());
+                }
+                if (tabTitles.size() > 0) {
+                    initFragments(tabTitles.size());
+                    pageAdapter = new MainPagerAdapter(getSupportFragmentManager(), tabTitles, fragments);
+                    vpPager.setAdapter(pageAdapter);
+                    tlTitle.setupWithViewPager(vpPager);
+                    tlTitle.setTabsFromPagerAdapter(pageAdapter);
                 }
             }
-
-            @Override
-            public void onFailure(Call<ThemesCategoryVo> call, Throwable t) {}
         });
     }
 
@@ -90,33 +87,14 @@ public class NewReleaseActivity extends BaseActivity implements TabLayout.OnTabS
         }
     }
 
-    /**
-     * get tab's tile
-     * @param themesVo
-     */
-    private void getTabTitles(ThemesCategoryVo themesVo) {
-        if (themesVo == null || themesVo.getOthers()==null || themesVo.getOthers().size() <= 0) {
-            return;
-        }
-        for (ThemesCategoryVo.OthersBean bean : themesVo.getOthers()) {
-            tabTitles.add(bean.getName());
-        }
-    }
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {}
 
     @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-
-    }
+    public void onTabUnselected(TabLayout.Tab tab) {}
 
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
-    }
+    public void onTabReselected(TabLayout.Tab tab) {}
 
     private void initToobar() {
         toolbar.setTitle(getString(R.string.find));

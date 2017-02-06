@@ -1,10 +1,13 @@
 package com.test.cheng.practice.presenter;
 
+import com.test.cheng.practice.App;
+import com.test.cheng.practice.R;
 import com.test.cheng.practice.model.bean.ThemesListVo;
 import com.test.cheng.practice.model.net.ApiLoader;
 import com.test.cheng.practice.model.repository.DiscoverListRepository;
 import com.test.cheng.practice.model.repository.IDiscoverListLoader;
 import com.test.cheng.practice.model.repository.OnLoadListener;
+import com.test.cheng.practice.utils.NetUtils;
 import com.test.cheng.practice.view.discover.IDiscoverListView;
 
 import rx.Subscriber;
@@ -30,7 +33,10 @@ public class DiscoverPresenter extends BasePresenter<IDiscoverListView> {
     }
 
     public void getThemesDetail(int id) {
-
+        if (!NetUtils.isNetworkAvailable()) {
+            getMvpView().showNetError(App.getInstance().getString(R.string.network_connect_failed));
+            return;
+        }
         discoverListLoader.getThemesDetail(id, new OnLoadListener<ThemesListVo>() {
 
             @Override

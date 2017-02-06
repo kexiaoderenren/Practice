@@ -92,7 +92,6 @@ public class NewsDetailActivity extends BaseActivity {
                                 .append("</head><body>")
                                 .append(newsVo.getBody())
                                 .append("</body></html>");
-                        //String html = "<html><head>" + css + "</head><body>" + newsVo.getBody() + "</body></html>";
                         LogUtils.i(html.toString());
 
                         ImageLoaderUtils.loadImg(NewsDetailActivity.this, newsVo.getImage(), imgBackdrop);
