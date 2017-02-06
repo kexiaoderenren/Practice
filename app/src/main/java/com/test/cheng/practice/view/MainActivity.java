@@ -7,12 +7,11 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.orhanobut.logger.Logger;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.view.base.BaseActivity;
-import com.test.cheng.practice.view.main.DiscoverFragment;
+import com.test.cheng.practice.view.discover.DiscoverFragment;
 import com.test.cheng.practice.view.main.HomeFragment;
 import com.test.cheng.practice.view.main.MessageFragment;
 import com.test.cheng.practice.view.main.MineFragment;

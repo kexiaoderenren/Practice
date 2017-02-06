@@ -15,7 +15,6 @@ import com.test.cheng.practice.model.bean.ThemesCategoryVo;
 import com.test.cheng.practice.model.net.ApiLoader;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.view.base.BaseActivity;
-import com.test.cheng.practice.view.main.DiscoverFragment;
 import com.test.cheng.practice.widget.NoSrcollViewPager;
 
 import java.util.ArrayList;

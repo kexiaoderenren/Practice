@@ -69,4 +69,7 @@ public interface ApiManager {
 
     @GET(Constants.URL_GET_THEMES_DETAIL)
     Call<ThemesListVo> getThemesDetail(@Path(Constants.PARAM_ID) int id);
+
+    @GET(Constants.URL_GET_THEMES_DETAIL)
+    Observable<ThemesListVo> getThemesDetail2(@Path(Constants.PARAM_ID) int id);
 }

@@ -1,4 +1,4 @@
-package com.test.cheng.practice.view.main;
+package com.test.cheng.practice.view.discover;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,14 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.test.cheng.practice.R;
 import com.test.cheng.practice.adapter.ThemesListAdapter;
 import com.test.cheng.practice.model.bean.ThemesListVo;
-import com.test.cheng.practice.model.net.ApiLoader;
-import com.test.cheng.practice.model.net.ApiManager;
+import com.test.cheng.practice.presenter.DiscoverPresenter;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.ImageLoaderUtils;
 import com.test.cheng.practice.view.base.BaseFragment;
@@ -28,14 +26,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
- * Created by kexiaoderenren on 2016/12/9.
+ * 发现模块
+ *     MVP架构（https://github.com/fangx/ZhiHuMVP）
+ * Created by kexiaoderenren on 2017/2/6.
  */
-public class DiscoverFragment extends BaseFragment {
+public class DiscoverFragment extends BaseFragment implements IDiscoverListView{
 
     @BindView(R.id.img_topic) ImageView imgTopic;
     @BindView(R.id.tv_topic) TextView tvTopic;
@@ -46,6 +43,7 @@ public class DiscoverFragment extends BaseFragment {
     private List<ThemesListVo.StoriesBean> stories;
     private ThemesListAdapter adapter;
     private int id;
+    private DiscoverPresenter presenter;
 
     public static DiscoverFragment newIntance(int id) {
         DiscoverFragment fragment = new DiscoverFragment();
@@ -84,7 +82,7 @@ public class DiscoverFragment extends BaseFragment {
 
             @Override
             public void onRefresh() {
-                getThemesDetail();
+                presenter.getThemesDetail(id);
             }
 
             @Override
@@ -103,35 +101,43 @@ public class DiscoverFragment extends BaseFragment {
         recyclerview.setItemAnimator(new DefaultItemAnimator());
         adapter = new ThemesListAdapter(stories);
         recyclerview.setAdapter(adapter);
-        getThemesDetail();
+
+        presenter = new DiscoverPresenter();
+        presenter.attachView(this);
+        presenter.getThemesDetail(id);
     }
 
-    private void getThemesDetail() {
+    @Override
+    public void refresh(List<ThemesListVo.StoriesBean> data, String description, String background) {
+        ImageLoaderUtils.loadImg(getMyActivity(), background, imgTopic);
+        tvTopic.setText(description);
+        if (data != null && data.size() > 0) {
+            stories.addAll(data);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void loadMore(List<ThemesListVo.StoriesBean> data) {}
+
+    @Override
+    public void showLoading(String msg) {
         swipeRefresh.post(new Runnable() {
             @Override
             public void run() {
                 swipeRefresh.setRefreshing(true);
             }
         });
-        ApiLoader.newApi().getThemesDetail(id).enqueue(new Callback<ThemesListVo>() {
-            @Override
-            public void onResponse(Call<ThemesListVo> call, Response<ThemesListVo> response) {
-                swipeRefresh.setRefreshing(false);
-                if (response.isSuccessful() && response.body() != null) {
-                    ThemesListVo themesListVo = response.body();
-                    ImageLoaderUtils.loadImg(getMyActivity(), themesListVo.getBackground(), imgTopic);
-                    tvTopic.setText(themesListVo.getDescription());
-                    if (themesListVo.getStories() != null && themesListVo.getStories().size() > 0) {
-                        stories.addAll(themesListVo.getStories());
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ThemesListVo> call, Throwable t) {
-                swipeRefresh.setRefreshing(false);
-            }
-        });
     }
+
+    @Override
+    public void hideLoading() {
+        swipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void showError(String msg) {}
+
+    @Override
+    public void showNetError(String msg) {}
 }
