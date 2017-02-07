@@ -79,6 +79,7 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        LogUtils.d("---state---onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
@@ -286,7 +287,9 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
+
 }

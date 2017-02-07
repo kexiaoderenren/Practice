@@ -15,10 +15,13 @@ public class DiscoverPresenter extends BasePresenter<IDiscoverListView> {
 
     private DiscoverListRepository repository;
 
+    public DiscoverPresenter() {
+        repository = new DiscoverListRepository();
+    }
+
     @Override
     public void attachView(IDiscoverListView mvpView) {
         super.attachView(mvpView);
-        repository = new DiscoverListRepository();
     }
 
     @Override

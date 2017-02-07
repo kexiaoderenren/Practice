@@ -20,10 +20,13 @@ public class NewsDetailPresenter extends BasePresenter<INewsDetailView> {
 
     private NewsDetailRepository repository;
 
+    public NewsDetailPresenter() {
+        this.repository = new NewsDetailRepository();
+    }
+
     @Override
     public void attachView(INewsDetailView mvpView) {
         super.attachView(mvpView);
-        repository = new NewsDetailRepository();
     }
 
     @Override

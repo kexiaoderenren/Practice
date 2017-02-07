@@ -21,10 +21,13 @@ public class HomePresenter extends BasePresenter<IHomeView> {
 
     private HomeNewsRepository repository;
 
+    public HomePresenter() {
+        repository = new HomeNewsRepository();
+    }
+
     @Override
     public void attachView(IHomeView mvpView) {
         super.attachView(mvpView);
-        repository = new HomeNewsRepository();
     }
 
     @Override
