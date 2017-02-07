@@ -1,5 +1,6 @@
 package com.test.cheng.practice.view.main;
 
+import android.app.Presentation;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import com.test.cheng.practice.R;
 import com.test.cheng.practice.model.bean.NewsVo;
 import com.test.cheng.practice.model.net.ApiLoader;
 import com.test.cheng.practice.model.net.BaseSubscriber;
+import com.test.cheng.practice.presenter.NewsDetailPresenter;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.ImageLoaderUtils;
 import com.test.cheng.practice.utils.LogUtils;
@@ -38,7 +40,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by kexiaoderenren on 2017/1/7.
  */
-public class NewsDetailActivity extends BaseActivity {
+public class NewsDetailActivity extends BaseActivity implements INewsDetailView{
 
     @BindView(R.id.img_backdrop) ImageView imgBackdrop;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -49,6 +51,7 @@ public class NewsDetailActivity extends BaseActivity {
 
     private int id;
     private String title = "";
+    private NewsDetailPresenter presenter;
 
     public static void start(Context context, int id, String title) {
         Intent intent = new Intent(context, NewsDetailActivity.class);
@@ -70,36 +73,11 @@ public class NewsDetailActivity extends BaseActivity {
         if (getIntent() != null) {
             id = getIntent().getIntExtra(Constants.PARAM_ID, 0);
             title = getIntent().getStringExtra(Constants.PARAM_TITLE);
-            getNewsDetail();
+            presenter = new NewsDetailPresenter();
+            presenter.attachView(this);
+            presenter.getNewsDetail(id);
         }
         collapsingToolbar.setTitle(title);
-    }
-
-    private void getNewsDetail() {
-        showHoldLoading();
-        ApiLoader.newApi().getNewsDetail2(id)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(new BaseSubscriber<NewsVo>(NewsDetailActivity.this) {
-
-                    @Override
-                    public void onNext(NewsVo newsVo) {
-                        String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/news.css\" type=\"text/css\">";
-
-                        StringBuffer html = new StringBuffer().append("<html><head>")
-                                .append(css)
-                                .append("</head><body>")
-                                .append(newsVo.getBody())
-                                .append("</body></html>");
-                        LogUtils.i(html.toString());
-
-                        ImageLoaderUtils.loadImg(NewsDetailActivity.this, newsVo.getImage(), imgBackdrop);
-                        imgBackdrop.setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
-                        tvImgAuthor.setText(newsVo.getImage_source());
-                        initViewLayout(html.toString());
-                    }
-                });
     }
 
 
@@ -118,6 +96,35 @@ public class NewsDetailActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         ImageLoaderUtils.pauseRequest();
+        presenter.detachView();
+    }
+
+    @Override
+    public void load(String content, String imageUrl, String authorName) {
+        ImageLoaderUtils.loadImg(NewsDetailActivity.this, imageUrl, imgBackdrop);
+        imgBackdrop.setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+        tvImgAuthor.setText(authorName);
+        initViewLayout(content);
+    }
+
+    @Override
+    public void showLoading(String msg) {
+        showHoldLoading(msg);
+    }
+
+    @Override
+    public void hideLoading() {
+        hideHoldLoading();
+    }
+
+    @Override
+    public void showError(String msg) {
+        ToastUtils.show(this, msg);
+    }
+
+    @Override
+    public void showNetError(String msg) {
+        ToastUtils.show(this, msg);
     }
 
     @Override

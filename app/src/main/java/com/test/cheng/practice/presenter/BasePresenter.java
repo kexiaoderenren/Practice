@@ -1,6 +1,6 @@
 package com.test.cheng.practice.presenter;
 
-import com.test.cheng.practice.view.discover.IMvpView;
+import com.test.cheng.practice.view.IMvpView;
 
 /**
  * Created by kexiaoderenren on 2017/2/6.

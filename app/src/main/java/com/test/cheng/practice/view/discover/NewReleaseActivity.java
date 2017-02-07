@@ -66,6 +66,7 @@ public class NewReleaseActivity extends BaseActivity implements TabLayout.OnTabS
         ApiLoader.newApi().getThemes().enqueue(new BaseCallback<ThemesCategoryVo>() {
             @Override
             protected void success(ThemesCategoryVo result) {
+                hideHoldLoading();
                 themesVo = result;
                 for (ThemesCategoryVo.OthersBean bean : themesVo.getOthers()) {
                     tabTitles.add(bean.getName());

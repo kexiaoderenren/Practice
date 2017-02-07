@@ -11,28 +11,37 @@ import rx.schedulers.Schedulers;
 /**
  * Created by kexiaoderenren on 2017/2/6.
  */
-public class DiscoverListRepository implements IDiscoverListLoader<ThemesListVo>{
+public class DiscoverListRepository implements ILoader{
 
-    @Override
+    private Subscriber<ThemesListVo> subscriber;
+
     public void getThemesDetail(int themesId, final OnLoadListener<ThemesListVo> onLoadListener) {
+        subscriber = new Subscriber<ThemesListVo>() {
+            @Override
+            public void onCompleted() {}
+
+            @Override
+            public void onError(Throwable e) {
+                onLoadListener.loadFinished();
+                onLoadListener.loadFailed(e.getMessage());
+            }
+
+            @Override
+            public void onNext(ThemesListVo themesListVo) {
+                onLoadListener.loadFinished();
+                onLoadListener.loadSuccess(themesListVo);
+            }
+        };
         ApiLoader.newApi().getThemesDetail2(themesId).
                 subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ThemesListVo>() {
-                    @Override
-                    public void onCompleted() {
-                        onLoadListener.loadFinished();
-                    }
+                .subscribe(subscriber);
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        onLoadListener.loadFailed(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(ThemesListVo themesListVo) {
-                        onLoadListener.loadSuccess(themesListVo);
-                    }
-                });
+    @Override
+    public void cancelLoader() {
+        if (subscriber != null && subscriber.isUnsubscribed()) {
+            subscriber.unsubscribe();
+        }
     }
 }

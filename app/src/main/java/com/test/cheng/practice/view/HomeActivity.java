@@ -28,6 +28,7 @@ import com.test.cheng.practice.model.bean.LastestNews;
 import com.test.cheng.practice.model.holder.TopNewsBannerHolder;
 import com.test.cheng.practice.model.net.ApiLoader;
 import com.test.cheng.practice.model.net.LoggingInterceptor;
+import com.test.cheng.practice.presenter.HomePresenter;
 import com.test.cheng.practice.utils.Constants;
 import com.test.cheng.practice.utils.DateUtils;
 import com.test.cheng.practice.utils.LogUtils;
@@ -36,6 +37,7 @@ import com.test.cheng.practice.utils.ToastUtils;
 import com.test.cheng.practice.view.base.BaseActivity;
 import com.test.cheng.practice.view.common.HtmlActivity;
 import com.test.cheng.practice.view.discover.NewReleaseActivity;
+import com.test.cheng.practice.view.main.IHomeView;
 import com.test.cheng.practice.view.main.NewsDetailActivity;
 import com.test.cheng.practice.widget.SuperSwipeRefreshLayout;
 
@@ -52,7 +54,8 @@ import retrofit2.Response;
  * 实现抽屉效果Activity
  * Created by keixaoderenren on 2017/1/3.
  */
-public class HomeActivity extends BaseActivity implements NestedScrollView.OnScrollChangeListener, NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends BaseActivity implements NestedScrollView.OnScrollChangeListener,
+        NavigationView.OnNavigationItemSelectedListener, IHomeView {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerview) RecyclerView recyclerview;
@@ -67,6 +70,7 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
     private NewsListAdapter newsListAdapter;
     private String today;  //标记当天日期
 
+    private HomePresenter presenter;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -102,7 +106,7 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
 
             @Override
             public void onRefresh() {
-                getNewsList();
+                presenter.getLastedNews();
             }
 
             @Override
@@ -115,7 +119,7 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
         swipeRefresh.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                if (!TextUtils.isEmpty(today)) getBeforeNews(today);
+                if (!TextUtils.isEmpty(today)) presenter.getBeforeNews(today);
             }
 
             @Override
@@ -138,7 +142,9 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
         newsListAdapter = new NewsListAdapter(storiesEntityList);
         recyclerview.setAdapter(newsListAdapter);
 
-        getNewsList();
+        presenter = new HomePresenter();
+        presenter.attachView(this);
+        presenter.getLastedNews();
     }
 
     @Override
@@ -191,83 +197,6 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
        }
     }
 
-    /*** 获取最新消息*/
-    private void getNewsList() {
-        swipeRefresh.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefresh.setRefreshing(true);
-            }
-        });
-        ApiLoader.newApi().getLastedNews().enqueue(new Callback<LastestNews>() {
-            @Override
-            public void onResponse(Call<LastestNews> call, Response<LastestNews> response) {
-                swipeRefresh.setRefreshing(false);
-                if (response.isSuccessful()) {
-                    LastestNews lastestNews = response.body();
-                    if (lastestNews != null && lastestNews.getStories() != null && lastestNews.getStories().size() > 0) {
-                        today = lastestNews.getDate();
-                        storiesEntityList.clear();
-                        storiesEntityList.addAll(lastestNews.getStories());
-                        newsListAdapter.notifyDataSetChanged();
-                    }
-                    if (lastestNews == null || lastestNews.getTop_stories() == null || lastestNews.getTop_stories().size() <= 0) {
-                        convenientBanner.setVisibility(View.GONE);
-                    } else {
-                        topStorieList.clear();
-                        topStorieList.addAll(lastestNews.getTop_stories());
-                        convenientBanner.setVisibility(View.VISIBLE);
-                        convenientBanner.setPages(new CBViewHolderCreator<TopNewsBannerHolder>() {
-                            @Override
-                            public TopNewsBannerHolder createHolder() {
-                                return new TopNewsBannerHolder();
-                            }
-                        }, topStorieList)    //设置需要切换的View
-                        .setPointViewVisible(true)    //设置指示器是否可见
-                        .setPageIndicator(new int[]{R.mipmap.navigation_drop_normal, R.mipmap.navigation_drop_selected})   //设置指示器圆点
-                        .startTurning(4000)     //设置自动切换（同时设置了切换时间间隔）
-                        .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL) //设置指示器位置（左、中、右）
-                        .setOnItemClickListener(new OnItemClickListener() {
-                              @Override
-                              public void onItemClick(int position) {
-                                   LastestNews.TopStoriesEntity entity = topStorieList.get(position);
-                                   NewsDetailActivity.start(HomeActivity.this, entity.getId(), entity.getTitle());
-                              }
-                        })
-                        .setManualPageable(true);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LastestNews> call, Throwable t) {}
-        });
-    }
-
-    /**
-     * 获取特定日期前一天消息
-     * @param date 特定日期
-     */
-    private void getBeforeNews(String date) {
-
-        ApiLoader.newApi().getBeforeNews(date).enqueue(new Callback<LastestNews>() {
-            @Override
-            public void onResponse(Call<LastestNews> call, Response<LastestNews> response) {
-                swipeRefresh.setLoadMore(false);
-                if (response == null || !response.isSuccessful()) { return; }
-                LastestNews lastestNews = response.body();
-                if (lastestNews != null && lastestNews.getStories() != null && lastestNews.getStories().size() > 0) {
-                    today = lastestNews.getDate();
-                    storiesEntityList.addAll(lastestNews.getStories());
-                    newsListAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LastestNews> call, Throwable t) {}
-        });
-    }
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -280,5 +209,84 @@ public class HomeActivity extends BaseActivity implements NestedScrollView.OnScr
     private void initToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void getNews(String date, final List<LastestNews.TopStoriesEntity> topStorieList, List<LastestNews.StoriesEntity> storiesList) {
+
+        today = date;
+        //消息列表
+        if (storiesList != null && storiesList.size() > 0) {
+            storiesEntityList.clear();
+            storiesEntityList.addAll(storiesList);
+            newsListAdapter.notifyDataSetChanged();
+        }
+
+        //广告展位
+        if (topStorieList != null && topStorieList.size() >0 ) {
+            this.topStorieList.clear();
+            this.topStorieList.addAll(topStorieList);
+            convenientBanner.setVisibility(View.VISIBLE);
+            convenientBanner.setPages(new CBViewHolderCreator<TopNewsBannerHolder>() {
+                @Override
+                public TopNewsBannerHolder createHolder() {
+                    return new TopNewsBannerHolder();
+                }
+            }, this.topStorieList)    //设置需要切换的View
+                    .setPointViewVisible(true)    //设置指示器是否可见
+                    .setPageIndicator(new int[]{R.mipmap.navigation_drop_normal, R.mipmap.navigation_drop_selected})   //设置指示器圆点
+                    .startTurning(4000)     //设置自动切换（同时设置了切换时间间隔）
+                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL) //设置指示器位置（左、中、右）
+                    .setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            LastestNews.TopStoriesEntity entity = topStorieList.get(position);
+                            NewsDetailActivity.start(HomeActivity.this, entity.getId(), entity.getTitle());
+                        }
+                    })
+                    .setManualPageable(true);
+        } else {
+            convenientBanner.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void loadMore(String date, List<LastestNews.StoriesEntity> storiesList) {
+        today = date;
+        storiesEntityList.addAll(storiesList);
+        newsListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showLoading(String msg) {
+        if (!HomePresenter.LOAD_MORE.equals(msg)) {
+            swipeRefresh.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefresh.setRefreshing(true);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void hideLoading() {
+        swipeRefresh.setRefreshing(false);
+        swipeRefresh.setLoadMore(false);
+    }
+
+    @Override
+    public void showError(String msg) {
+        ToastUtils.show(this, msg);
+    }
+
+    @Override
+    public void showNetError(String msg) {
+        ToastUtils.show(this, msg);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

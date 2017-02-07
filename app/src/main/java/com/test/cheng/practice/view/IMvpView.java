@@ -1,4 +1,4 @@
-package com.test.cheng.practice.view.discover;
+package com.test.cheng.practice.view;
 
 import android.view.View;
 

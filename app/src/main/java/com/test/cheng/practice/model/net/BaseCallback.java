@@ -19,7 +19,9 @@ public abstract class BaseCallback<T> implements Callback<T> {
         doResponse(response);
         if (response.isSuccessful() && response.body() != null) {
             success(response.body());
+            LogUtils.net(response.body().toString());
         } else {
+            LogUtils.net(response.code() + "  " + response.message());
             ToastUtils.show(App.getInstance(), response.message());
             failed();
         }

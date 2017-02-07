@@ -143,4 +143,11 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverListView{
     public void showNetError(String msg) {
         ToastUtils.show(getMyActivity(), msg);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ImageLoaderUtils.pauseRequest();
+        presenter.detachView();
+    }
 }
