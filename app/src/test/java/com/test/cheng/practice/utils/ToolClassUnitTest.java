@@ -13,5 +13,7 @@ public class ToolClassUnitTest {
     public void testDateFormatTransfer() {
         String result = DateUtils.dateFormatTransfer("00000001");
         Assert.assertEquals("0000-00-01", result);
+
+
     }
 }
