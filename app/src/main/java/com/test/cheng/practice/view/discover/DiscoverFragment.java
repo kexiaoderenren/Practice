@@ -110,6 +110,7 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverListView{
 
     @Override
     public void refresh(List<ThemesListVo.StoriesBean> data, String description, String background) {
+
         ImageLoaderUtils.loadImg(getMyActivity(), background, imgTopic);
         tvTopic.setText(description);
         if (data != null && data.size() > 0) {
